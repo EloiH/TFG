@@ -1,0 +1,61 @@
+.seat {
+    fill: white;
+}
+
+.seat.available {
+    fill: green;
+}
+
+.seat.unavailable {
+    fill: grey;
+}
+
+.seat.available:hover,
+.seat.available:hover {
+    cursor: pointer;
+    fill: yellow;
+}
+
+.seat.available.selected {
+    fill: blue;
+}
+
+
+#wrap {
+
+    height: 100vh;
+    text-align: center;
+}
+
+.navbar-expand-sm {
+    background-color:black;
+    height: 85px;
+}
+.navbar-brand {
+    margin-left: 20px;
+}
+.navbar-brand2 {
+    padding-left: 20px;
+}
+#main {
+    height: 100%;
+    text-align: center;
+}
+
+#view3d-container {
+    float: center;
+    height: 100%;
+    padding-bottom: 20px;
+    overflow-y: auto;
+}
+#container {
+    float: center;
+    height: 100%;
+    padding-bottom: 20px;
+    overflow-y: auto;
+}
+#content {
+    height: 600px;
+    margin-left: 20%;
+    height: calc(100% - 135px);
+}

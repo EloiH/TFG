@@ -1,0 +1,61 @@
+{
+    "images":[
+        {
+            "id": "1",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
+            "link": ""
+        },
+        {
+            "id": "2",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank.png",
+            "link": ""
+        },
+        {
+            "id": "3",
+            "url": "ttps://tk3d.pre-tk3dapi.com/activation/images/caixabank_black.jpg",
+            "link": ""
+        },
+        {
+            "id": "4",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
+            "link": ""
+        },
+        {
+            "id": "5",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
+            "link": ""
+        },
+        {
+            "id": "6",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
+            "link": ""
+        },
+        {
+            "id": "7",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
+            "link": ""
+        }
+    ],
+    "videos":[
+        {
+            "id": "1",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/videos/masriera-480.mp4",
+            "link": ""
+        },
+        {
+            "id": "2",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/videos/masriera-720.mp4",
+            "link": ""
+        },
+        {
+            "id": "3",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/videos/sample-480.mp4",
+            "link": ""
+        },
+        {
+            "id": "4",
+            "url": "https://tk3d.pre-tk3dapi.com/activation/videos/sample-720.mp4",
+            "link": ""
+        }
+    ]
+}
