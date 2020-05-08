@@ -23,8 +23,8 @@ function readJsonMMC(){
 }
 
 var id = 1;
-const api_img_url = "https://my-json-server.typicode.com/EloiH/test-pressenger/images";
-const api_vid_url = "https://my-json-server.typicode.com/EloiH/test-pressenger/videos"; 
+const api_img_url = "https://my-json-server.typicode.com/eloih/tfg/images";
+const api_vid_url = "https://my-json-server.typicode.com/eloih/tfg/videos"; 
 
 fetch(api_img_url)
     .then(function(result) {
