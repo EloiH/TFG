@@ -22,23 +22,20 @@ function readJsonMMC(){
     });
 }
 
-var id = 1;
-const api_img_url = "https://my-json-server.typicode.com/eloih/tfg/images";
-const api_vid_url = "https://my-json-server.typicode.com/eloih/tfg/videos"; 
 
-fetch(api_img_url)
-    .then(function(result) {
-        return result.json();
-    })
-    .then(function(result) {
-        success = result;
-    })
-    .catch(function(error)
-    {
-        console.log("something went wrong with retrieving images");
-    });
+//Event Listeners
+document.getElementById("header").addEventListener("click", function(event) {
+    if(event.target.id === "navbar-logo3DDV") {
+        window.open("https://3ddigitalvenue.com");
+    }
+    if(event.target.id === "navbar-logoPress") {
+        window.open("https://pressenger.com/");
+    }
+});
 
-    
+
+
+
 // Map module config
 var config = {
     callbacks: {
@@ -175,29 +172,50 @@ function onClickBlock(obj) {
 
 // Called when user clicks a seat
 function onClickSeat(obj) {
+    getAllResources();
     if (obj && obj.isAvailable()) {
         console.log("CLICK:", obj.id);
         map_module.select(obj);
         view3d_module.load(obj.id);
     }
 }
+// function onload3dview(view) {
+//     if (nodes) {
+//         var stuff = nodes.s[view];
+//         if (stuff) {
+//             for (var plane_id in stuff) {
+//                 if (stuff.hasOwnProperty(plane_id)) {
+//                     var position = stuff[plane_id].p;
+//                     var rotation = stuff[plane_id].r;
+//                     var size = nodes.o[plane_id].s;
+//                     addImage(success.url, position, rotation, size);
+//                 }
+//             }
+//         }
+//     }
+// }
+
 
 function onload3dview(view) {
+    var resources = getItemsOfResource("images");
+    //var resources = getItemsOfResource("videos");
+    getSpecificImage("1", resources);
+    //var resource = getSpecificVideo("1");
     if (nodes) {
         var stuff = nodes.s[view];
-        console.log(stuff);
+        //console.log(stuff);
         if (stuff) {
-            for(let i=0; i<success.length; i++){
+            for(let i=0; i<resources.length; i++){
                 setTimeout(function () {  
+                    view3d_module.removeImages();
                     for (var plane_id in stuff) {
                         if (stuff.hasOwnProperty(plane_id)) {
                             var position = stuff[plane_id].p;
                             var rotation = stuff[plane_id].r;
                             var size = nodes.o[plane_id].s;
                             
-                            image_url = success[i].url; 
-                            //video_url = success[i].url; 
-                            
+                            image_url = resources[i].url; 
+                            //video_url = resources[i].url; 
                             addImage(image_url, position, rotation, size);
                             //addVideo(video_url, position, rotation, size);
                         }
@@ -222,6 +240,7 @@ function addImage(imgurl, position, rotation, size) {
             }
         ]
     };
+    
     view3d_module.addImage(image_config);
 }
 
@@ -250,3 +269,58 @@ function onimageclicked(res) {
 function onvideoclicked(res) {
     console.log("Click video!", res);
 }
+
+
+
+
+
+
+/*-------------------Pressenger API simulation calls-----------------------------*/
+
+function getAllResources(){
+    const api_url = "https://my-json-server.typicode.com/eloih/tfg/db";
+
+fetch(api_url)
+    .then(function(result) {
+        return result.json();
+    })
+    .then(function(result) {
+        success = result;
+    })
+    .catch(function(error)
+    {
+        console.log("something went wrong with retrieving resources from Pressenger API");
+    });
+
+}
+
+//Return all the items of a specific resource: images or videos (by the moment)
+function getItemsOfResource(resourceType) {
+    for(var props in success){
+        if(props === resourceType){
+            console.log(success[props]);
+            images = success[props];
+            return images;
+        }
+    }
+}
+
+//Return a specific image
+function getSpecificImage(idPress, resources){
+    for(var i=0; i<resources.length; i++){
+        if(resources[i].id === idPress){
+            console.log("hola");
+            console.log(resources[i]);
+            return resources[i];
+        }
+        else {
+            console.log("This item does not exists!");
+            break;
+        }
+    }
+}
+
+
+// function getLinksFrom(){
+//     getItemsOfResource("image");
+// }
