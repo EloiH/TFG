@@ -1,6 +1,7 @@
 var nodes = null;
 var success = null;
-//var image_url = "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg";
+var link = null;
+var url = null;
 
 // ---- INSTANCING ----
 // TICKETING3D instance
@@ -179,56 +180,48 @@ function onClickSeat(obj) {
         view3d_module.load(obj.id);
     }
 }
-// function onload3dview(view) {
-//     if (nodes) {
-//         var stuff = nodes.s[view];
-//         if (stuff) {
-//             for (var plane_id in stuff) {
-//                 if (stuff.hasOwnProperty(plane_id)) {
-//                     var position = stuff[plane_id].p;
-//                     var rotation = stuff[plane_id].r;
-//                     var size = nodes.o[plane_id].s;
-//                     addImage(success.url, position, rotation, size);
-//                 }
-//             }
-//         }
-//     }
-// }
+
 
 
 function onload3dview(view) {
-    var resources = getItemsOfResource("images");
-    //var resources = getItemsOfResource("videos");
-    getSpecificImage("1", resources);
-    //var resource = getSpecificVideo("1");
+    var type = "videos";
+    var resources = getItemsOfResource(type);
+
+    getSpecificResource("1", resources);
     if (nodes) {
         var stuff = nodes.s[view];
-        //console.log(stuff);
         if (stuff) {
             for(let i=0; i<resources.length; i++){
-                setTimeout(function () {  
-                    view3d_module.removeImages();
+                setTimeout(function () {
+                    if(type === "images") {
+                        view3d_module.removeImages();
+                    }  
+                    else {
+                        view3d_module.removeVideos();
+                    }
                     for (var plane_id in stuff) {
                         if (stuff.hasOwnProperty(plane_id)) {
                             var position = stuff[plane_id].p;
                             var rotation = stuff[plane_id].r;
                             var size = nodes.o[plane_id].s;
                             
-                            image_url = resources[i].url; 
-                            //video_url = resources[i].url; 
-                            addImage(image_url, position, rotation, size);
-                            //addVideo(video_url, position, rotation, size);
+                            url = resources[i].url;
+                            link = resources[i].link;
+                            if(type === "images") {
+                                addImage(url, position, rotation, size);
+                            }  
+                            else {
+                                addVideo(url, position, rotation, size);
+                            }
                         }
                     }
-                }, (i)*3000);
+                }, (i)*6000);
             }
         }
     }
 }
 
 function addImage(imgurl, position, rotation, size) {
-    //console.log("Node");
-    console.log(imgurl);
     var image_config = {
         url : imgurl,
         instances : [
@@ -245,7 +238,6 @@ function addImage(imgurl, position, rotation, size) {
 }
 
 function addVideo(vidurl, position, rotation, size) {
-    //console.log("Node");
     console.log(vidurl);
     var video_config = {
         url : vidurl,
@@ -263,10 +255,12 @@ function addVideo(vidurl, position, rotation, size) {
 
 
 function onimageclicked(res) {
+    window.open(link, "_blank");
     console.log("Click image!", res);
 }
 
 function onvideoclicked(res) {
+    window.open(link, "_blank");
     console.log("Click video!", res);
 }
 
@@ -305,12 +299,10 @@ function getItemsOfResource(resourceType) {
     }
 }
 
-//Return a specific image
-function getSpecificImage(idPress, resources){
+//Return a specific image or video
+function getSpecificResource(idPress, resources){
     for(var i=0; i<resources.length; i++){
         if(resources[i].id === idPress){
-            console.log("hola");
-            console.log(resources[i]);
             return resources[i];
         }
         else {
@@ -319,8 +311,3 @@ function getSpecificImage(idPress, resources){
         }
     }
 }
-
-
-// function getLinksFrom(){
-//     getItemsOfResource("image");
-// }
