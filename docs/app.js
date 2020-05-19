@@ -184,7 +184,7 @@ function onClickSeat(obj) {
 
 
 function onload3dview(view) {
-    var type = "videos";
+    var type = "images";
     var resources = getItemsOfResource(type);
 
     getSpecificResource("1", resources);
