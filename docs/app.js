@@ -1,29 +1,43 @@
-
 var nodes = null;
 var success = null;
 var link = null;
 var url = null;
+var web_country = null;
+ipLook();
+
+//readJsonMMC();
 
 
-// ---- INSTANCING ----
-// TICKETING3D instance
-var tk3d = new TICKETING3D("eu-es-00051-activation2");
-// View 3D module instance
-var view3d_module = new Ticketing3D("view3d-container","eu-es-00051-activation2");
-
-
-readJsonMMC();
-
-function readJsonMMC(){
+//function readJsonMMC(){
     fetch("./instances.json")
     .then(function(result) {
         return result.json();
     })
     .then(function(result) {
         nodes = result;
+        start();
+        getAllResources();
     });
-}
+//}
 
+// callbacks 3Dview
+var callbacks = {
+    imageclicked: onimageclicked,
+    videoclicked: onvideoclicked,
+    loaded: onload3dview
+};
+// ---- INSTANCING ----
+// TICKETING3D instance
+var tk3d = new TICKETING3D("eu-es-00051-activation2");
+// View 3D module instance
+var view3d_module = new Ticketing3D("view3d-container","eu-es-00051-activation2");
+view3d_module.addCallbacks(callbacks);
+
+
+
+function start() {
+    view3d_module.load("S_214-7-11");
+}
 
 //Event Listeners header
 document.getElementById("header").addEventListener("click", function(event) {
@@ -100,12 +114,7 @@ var map_init_config = {
 var map_module = tk3d.loadModule(map_init_config);
 
 
-// callbacks 3Dview
- var callbacks = {
-     imageclicked: onimageclicked,
-     videoclicked: onvideoclicked,
-     loaded: onload3dview
- };
+
 
 view3d_module.addCallbacks(callbacks);
 
@@ -122,11 +131,6 @@ function onLoadBlockmap(err, module) {
 
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
-    var location = ipLookUp();
-    if(location === "Tokyo"){
-        console.log("tokyo");
-    }
-    else(console.log("no tokyo"));
     console.log("BLOCKMAP LOADED");
 }
 
@@ -186,61 +190,19 @@ function onClickBlock(obj) {
 function onClickSeat(obj) {
     getAllResources();
     if (obj && obj.isAvailable()) {
-        
-            map_module.unselectAll();
-        
-
-        console.log(obj.isAvailable());
+        map_module.unselectAll();
         console.log("CLICK:", obj.id);
         map_module.select(obj);
-        view3d_module.load(obj.id);
+        //view3d_module.load(obj.id);
     }
 }
 
 
 
-// function onload3dview(view) {
-//     var type = "images";
-//     var resources = getItemsOfResource(type);
-
-//     getSpecificResource("1", resources);
-//     if (nodes) {
-//         var stuff = nodes.s[view];
-//         if (stuff) {
-//             for(let i=0; i<resources.length; i++){
-//                 setTimeout(function () {
-//                     if(type === "images") {
-//                         view3d_module.removeImages();
-//                     }  
-//                     else {
-//                         view3d_module.removeVideos();
-//                     }
-//                     for (var plane_id in stuff) {
-//                         if (stuff.hasOwnProperty(plane_id)) {
-//                             var position = stuff[plane_id].p;
-//                             var rotation = stuff[plane_id].r;
-//                             var size = nodes.o[plane_id].s;
-                            
-//                             url = resources[i].url;
-//                             link = resources[i].link;
-//                             if(type === "images") {
-//                                 addImage(url, position, rotation, size);
-
-//                             }  
-//                             else {
-//                                 addVideo(url, position, rotation, size);
-//                             }
-//                         }
-//                     }
-//                 }, (i)*6000);
-//             }
-//         }
-//     }
-// }
 function onload3dview(view) {
     var type = "images";
     var resources = getItemsOfResource(type);
-    var resource = getSpecificResource("2", resources);
+    var resource = getResourceByCountry(web_country, resources);
 
 
     if (nodes) {
@@ -346,7 +308,6 @@ fetch(api_url)
 function getItemsOfResource(resourceType) {
     for(var props in success){
         if(props === resourceType){
-            console.log(success[props]);
             images = success[props];
             return images;
         }
@@ -355,15 +316,35 @@ function getItemsOfResource(resourceType) {
 
 //Return a specific image or video
 function getSpecificResource(idPress, resources){
-    console.log(idPress);
     var ids = getIds(resources);
     if(ids.includes(idPress)){
-        return resources[idPress];
+        for(var i =0; resources.length; i++){
+            if(resources[i].id ===idPress){
+                return resources[i];
+            }
+        }
     }
     else{
         alert("This item doesn't exists. Try another ID!");
     }
 }
+
+function getResourceByCountry(country, resources){
+    console.log(country);
+    var countries = getCountries(resources);
+    if(countries.includes(country)){
+        for(var i =0; resources.length; i++){
+            if(resources[i].country ===country){
+                return resources[i];
+            }
+        }
+    }
+    else{
+        alert("This item doesn't exists. Try another ID!");
+    }
+}
+
+
 function getIds(resources){
     var ids_array = [];
     for(var i=0; i<resources.length; i++){
@@ -373,17 +354,24 @@ function getIds(resources){
 }
 
 // Function to obtain the IP adress location
-function ipLookUp(){
+function ipLook(){
 fetch('https://ipapi.co/json/')
   .then(function(response) {
     return response.json();
-
   })
   .then(function(data) {
     console.log(data);
+    web_country = data.country_name;
   });
 }
 
+function getCountries(resources){
+    var countries_array = [];
+    for(var i=0; i<resources.length; i++){
+        countries_array.push(resources[i].country);
+    }
+    return countries_array;
+}
 // ---- INTERFACE ELEMENTS ----
 // Button to go back to blockmap when a seatmap is loaded
 var homebtn = document.getElementById("btn-home");
