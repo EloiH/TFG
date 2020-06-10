@@ -3,6 +3,7 @@ var success = null;
 var link = null;
 var url = null;
 var web_country = null;
+console.log("actualized");
 ipLook();
 
 //readJsonMMC();
