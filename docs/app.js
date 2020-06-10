@@ -1,7 +1,9 @@
+
 var nodes = null;
 var success = null;
 var link = null;
 var url = null;
+
 
 // ---- INSTANCING ----
 // TICKETING3D instance
@@ -19,18 +21,14 @@ function readJsonMMC(){
     })
     .then(function(result) {
         nodes = result;
-        //start();
     });
 }
 
 
-//Event Listeners
+//Event Listeners header
 document.getElementById("header").addEventListener("click", function(event) {
     if(event.target.id === "navbar-logo3DDV") {
         window.open("https://3ddigitalvenue.com");
-    }
-    if(event.target.id === "navbar-logoPress") {
-        window.open("https://pressenger.com/");
     }
 });
 
@@ -46,6 +44,14 @@ var config = {
         seat: {
             click: onClickSeat
         },
+        selection: {
+            block: {
+                //this callback will be triggered every time that a block element is selected
+                elementselected: function(element) { /*...*/ },
+                //this callback will be triggered every time that a block element is unselected
+                elementunselected: function(element) { /*...*/ }
+            }
+        }
     },
     selection: {
     default: {
@@ -85,8 +91,8 @@ var config = {
 // Shared map module init options
 var map_init_config = {
     module:"map",
-    container: "container",
-    plugins: ["SelectionPlugin"],
+    container: "map-container",
+    plugins: ["SelectionPlugin","MapArrowsPlugin","RowsPlugin","ThumbnailPlugin"],
     config: config
 };
 
@@ -95,11 +101,11 @@ var map_module = tk3d.loadModule(map_init_config);
 
 
 // callbacks 3Dview
-var callbacks = {
-    imageclicked: onimageclicked,
-    videoclicked: onvideoclicked,
-    loaded: onload3dview
-};
+ var callbacks = {
+     imageclicked: onimageclicked,
+     videoclicked: onvideoclicked,
+     loaded: onload3dview
+ };
 
 view3d_module.addCallbacks(callbacks);
 
@@ -116,6 +122,11 @@ function onLoadBlockmap(err, module) {
 
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
+    var location = ipLookUp();
+    if(location === "Tokyo"){
+        console.log("tokyo");
+    }
+    else(console.log("no tokyo"));
     console.log("BLOCKMAP LOADED");
 }
 
@@ -175,6 +186,11 @@ function onClickBlock(obj) {
 function onClickSeat(obj) {
     getAllResources();
     if (obj && obj.isAvailable()) {
+        
+            map_module.unselectAll();
+        
+
+        console.log(obj.isAvailable());
         console.log("CLICK:", obj.id);
         map_module.select(obj);
         view3d_module.load(obj.id);
@@ -183,43 +199,81 @@ function onClickSeat(obj) {
 
 
 
+// function onload3dview(view) {
+//     var type = "images";
+//     var resources = getItemsOfResource(type);
+
+//     getSpecificResource("1", resources);
+//     if (nodes) {
+//         var stuff = nodes.s[view];
+//         if (stuff) {
+//             for(let i=0; i<resources.length; i++){
+//                 setTimeout(function () {
+//                     if(type === "images") {
+//                         view3d_module.removeImages();
+//                     }  
+//                     else {
+//                         view3d_module.removeVideos();
+//                     }
+//                     for (var plane_id in stuff) {
+//                         if (stuff.hasOwnProperty(plane_id)) {
+//                             var position = stuff[plane_id].p;
+//                             var rotation = stuff[plane_id].r;
+//                             var size = nodes.o[plane_id].s;
+                            
+//                             url = resources[i].url;
+//                             link = resources[i].link;
+//                             if(type === "images") {
+//                                 addImage(url, position, rotation, size);
+
+//                             }  
+//                             else {
+//                                 addVideo(url, position, rotation, size);
+//                             }
+//                         }
+//                     }
+//                 }, (i)*6000);
+//             }
+//         }
+//     }
+// }
 function onload3dview(view) {
     var type = "images";
     var resources = getItemsOfResource(type);
+    var resource = getSpecificResource("2", resources);
 
-    getSpecificResource("1", resources);
+
     if (nodes) {
         var stuff = nodes.s[view];
-        if (stuff) {
-            for(let i=0; i<resources.length; i++){
-                setTimeout(function () {
+        if (stuff) {    
+            if(type === "images") {
+                view3d_module.removeImages();
+            }  
+            else {
+                view3d_module.removeVideos();
+            }
+            for (var plane_id in stuff) {
+                if (stuff.hasOwnProperty(plane_id)) {
+                    var position = stuff[plane_id].p;
+                    var rotation = stuff[plane_id].r;
+                    var size = nodes.o[plane_id].s;
+                    
+                    url = resource.url;
+                    link = resource.link;
                     if(type === "images") {
-                        view3d_module.removeImages();
+                        addImage(url, position, rotation, size);
+
                     }  
                     else {
-                        view3d_module.removeVideos();
+                        addVideo(url, position, rotation, size);
                     }
-                    for (var plane_id in stuff) {
-                        if (stuff.hasOwnProperty(plane_id)) {
-                            var position = stuff[plane_id].p;
-                            var rotation = stuff[plane_id].r;
-                            var size = nodes.o[plane_id].s;
-                            
-                            url = resources[i].url;
-                            link = resources[i].link;
-                            if(type === "images") {
-                                addImage(url, position, rotation, size);
-                            }  
-                            else {
-                                addVideo(url, position, rotation, size);
-                            }
-                        }
-                    }
-                }, (i)*6000);
+                }
             }
+                
         }
-    }
+    }  
 }
+
 
 function addImage(imgurl, position, rotation, size) {
     var image_config = {
@@ -301,13 +355,41 @@ function getItemsOfResource(resourceType) {
 
 //Return a specific image or video
 function getSpecificResource(idPress, resources){
-    for(var i=0; i<resources.length; i++){
-        if(resources[i].id === idPress){
-            return resources[i];
-        }
-        else {
-            console.log("This item does not exists!");
-            break;
-        }
+    console.log(idPress);
+    var ids = getIds(resources);
+    if(ids.includes(idPress)){
+        return resources[idPress];
     }
+    else{
+        alert("This item doesn't exists. Try another ID!");
+    }
+}
+function getIds(resources){
+    var ids_array = [];
+    for(var i=0; i<resources.length; i++){
+        ids_array.push(resources[i].id);
+    }
+    return ids_array;
+}
+
+// Function to obtain the IP adress location
+function ipLookUp(){
+fetch('https://ipapi.co/json/')
+  .then(function(response) {
+    return response.json();
+
+  })
+  .then(function(data) {
+    console.log(data);
+  });
+}
+
+// ---- INTERFACE ELEMENTS ----
+// Button to go back to blockmap when a seatmap is loaded
+var homebtn = document.getElementById("btn-home");
+if (homebtn) {
+    homebtn.addEventListener("click", function(event) {
+        // event.preventDefault();
+        map_module.loadMap("blockmap", onLoadBlockmap);
+    });
 }

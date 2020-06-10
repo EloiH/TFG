@@ -26,13 +26,7 @@
     text-align: center;
 }
 
-#navbar-logo3DDV {
-    height: 50px;
-}
-#navbar-logoPress {
-    height: 50px;
-    padding-left: 30px;
-}
+
 
 #header {
     padding: 0 50px;
@@ -42,22 +36,35 @@
     width: 100%;
     background: #000;
 }
+.container {
+    display: block !important;
+}
 
 #page-content {
     overflow: hidden;
     margin-top: 100px;
     position: relative;
 }
-#container {
+#map-container {
     width: 100%;
     position: relative;
     display: block;
     overflow: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .nopadding {
    padding: 0 !important;
    margin: 0 !important;
 }
-
-
+p {
+    padding-bottom: 30px;
+}
+#btn-home {
+    float: left;
+    margin-left: 33px;
+}
+#view3d-container {
+    padding-top: 55px;
+}
