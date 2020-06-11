@@ -191,6 +191,8 @@ function getSeatAvailability() {
 function onClickBlock(obj) {
     //getAllResources();
     if (obj && obj.isAvailable()) {
+        var sectionbtn = document.getElementById("sectionBtn");
+        sectionbtn.innerHTML = "Section: "+obj.id;
         console.log("CLICK:", obj.id);
         map_module.select(obj);
         map_module.loadMap(obj.id, onLoadSeatmap);
@@ -203,6 +205,8 @@ function onClickBlock(obj) {
 
 // Called when user clicks a seat
 function onClickSeat(obj) {
+    document.getElementById("view3d-container").style.display = "block";
+    document.getElementById("sectionBtn").style.display = "block";
     if (obj && obj.isAvailable()) {
         map_module.unselectAll();
         console.log("CLICK:", obj.id);
@@ -424,6 +428,8 @@ var homebtn = document.getElementById("btn-home");
 if (homebtn) {
     homebtn.addEventListener("click", function(event) {
         // event.preventDefault();
+        document.getElementById("view3d-container").style.display = "none";
+        document.getElementById("sectionBtn").style.display = "none";
         map_module.loadMap("blockmap", onLoadBlockmap);
     });
 }

@@ -68,3 +68,8 @@ p {
 #view3d-container {
     padding-top: 55px;
 }
+
+#sectionBtn{
+    float: left;
+    margin-left: 20px;
+}
