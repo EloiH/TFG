@@ -3,23 +3,22 @@ var success = null;
 var link = null;
 var url = null;
 var web_country = null;
-console.log("actualized");
-ipLook();
+//ipLook(); //uncomment this line to check the ip of the user and get the access location
 
-//readJsonMMC();
+readJsonMMC();
 
 
-//function readJsonMMC(){
+function readJsonMMC(){
     fetch("./instances.json")
     .then(function(result) {
         return result.json();
     })
     .then(function(result) {
         nodes = result;
-        start();
-        getAllResources();
+        //start();
+        //getAllResources();uncomment this two lines to see the visual3D in the main page
     });
-//}
+}
 
 // callbacks 3Dview
 var callbacks = {
@@ -27,6 +26,8 @@ var callbacks = {
     videoclicked: onvideoclicked,
     loaded: onload3dview
 };
+
+
 // ---- INSTANCING ----
 // TICKETING3D instance
 var tk3d = new TICKETING3D("eu-es-00051-activation2");
@@ -194,7 +195,7 @@ function onClickSeat(obj) {
         map_module.unselectAll();
         console.log("CLICK:", obj.id);
         map_module.select(obj);
-        //view3d_module.load(obj.id);
+        view3d_module.load(obj.id);
     }
 }
 
@@ -203,8 +204,8 @@ function onClickSeat(obj) {
 function onload3dview(view) {
     var type = "images";
     var resources = getItemsOfResource(type);
-    var resource = getResourceByCountry(web_country, resources);
-
+    //var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+    var resource = getSpecificResource("6", resources); 
 
     if (nodes) {
         var stuff = nodes.s[view];
@@ -335,13 +336,13 @@ function getResourceByCountry(country, resources){
     var countries = getCountries(resources);
     if(countries.includes(country)){
         for(var i =0; resources.length; i++){
-            if(resources[i].country ===country){
+            if(resources[i].country === country){
                 return resources[i];
             }
         }
     }
     else{
-        alert("This item doesn't exists. Try another ID!");
+        return resources[0];
     }
 }
 
