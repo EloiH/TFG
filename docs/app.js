@@ -3,6 +3,10 @@ var success = null;
 var link = null;
 var url = null;
 var web_country = null;
+var vip_elements = "S_palco";
+var vips = null;
+var vipResource = null;
+var isVIP = Boolean;
 //ipLook(); //uncomment this line to check the ip of the user and get the access location
 
 readJsonMMC();
@@ -16,7 +20,6 @@ function readJsonMMC(){
     .then(function(result) {
         nodes = result;
         //start();
-        //getAllResources();uncomment this two lines to see the visual3D in the main page
     });
 }
 
@@ -122,7 +125,7 @@ view3d_module.addCallbacks(callbacks);
 
 // ---- LOADING A MAP ----
 map_module.loadMap("blockmap", onLoadBlockmap);
-
+getAllResources();
 
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
@@ -130,9 +133,14 @@ function onLoadBlockmap(err, module) {
         console.error(err);
         return;
     }
-
+    isVIP = false;
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
+    map_module.setElementAvailable(vip_elements); //make sure vip elements are available(for testing)
+    map_module.addStatus(vip_elements, "vip");
+    vips = map_module.getElementsByStatus("vip")[0].id;
+    getVipResources();
+    console.log(vipResource);
     console.log("BLOCKMAP LOADED");
 }
 
@@ -181,16 +189,20 @@ function getSeatAvailability() {
 
 // Called when user clicks a block
 function onClickBlock(obj) {
+    //getAllResources();
     if (obj && obj.isAvailable()) {
         console.log("CLICK:", obj.id);
         map_module.select(obj);
         map_module.loadMap(obj.id, onLoadSeatmap);
+
+        if(obj.id === vips){
+            isVIP = true;
+        }
     }
 }
 
 // Called when user clicks a seat
 function onClickSeat(obj) {
-    getAllResources();
     if (obj && obj.isAvailable()) {
         map_module.unselectAll();
         console.log("CLICK:", obj.id);
@@ -203,9 +215,17 @@ function onClickSeat(obj) {
 
 function onload3dview(view) {
     var type = "images";
-    var resources = getItemsOfResource(type);
-    //var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
-    var resource = getSpecificResource("6", resources); 
+    
+    if(isVIP === true){
+        resource = vipResource;
+        console.log("adding vip resource");
+    }
+    else {
+        var resources = getItemsOfResource(type);
+        //var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        var resource = getSpecificResource("6", resources); 
+    }
+
 
     if (nodes) {
         var stuff = nodes.s[view];
@@ -256,7 +276,6 @@ function addImage(imgurl, position, rotation, size) {
 }
 
 function addVideo(vidurl, position, rotation, size) {
-    console.log(vidurl);
     var video_config = {
         url : vidurl,
         instances : [
@@ -298,6 +317,7 @@ fetch(api_url)
     })
     .then(function(result) {
         success = result;
+        console.log(success);
     })
     .catch(function(error)
     {
@@ -332,7 +352,6 @@ function getSpecificResource(idPress, resources){
 }
 
 function getResourceByCountry(country, resources){
-    console.log(country);
     var countries = getCountries(resources);
     if(countries.includes(country)){
         for(var i =0; resources.length; i++){
@@ -362,7 +381,6 @@ fetch('https://ipapi.co/json/')
     return response.json();
   })
   .then(function(data) {
-    console.log(data);
     web_country = data.country_name;
   });
 }
@@ -374,6 +392,32 @@ function getCountries(resources){
     }
     return countries_array;
 }
+
+
+function getVipResources() {
+    if(success.hasOwnProperty('images') && success.images.length != 0){  
+        for(image in success.images){
+            if(success.images[image].hasOwnProperty("vip")){
+                vipResource =  success.images[image];
+                return vipResource;
+            }
+        }
+
+      }
+      if(success.hasOwnProperty('videos') && success.videos.length != 0){  
+        for(video in success.videos){
+            if(success.videos[video].hasOwnProperty("vip")){
+                vipResource =  success.videos[video];
+                return vipResource;
+            }
+        }
+      }
+}
+
+
+
+
+
 // ---- INTERFACE ELEMENTS ----
 // Button to go back to blockmap when a seatmap is loaded
 var homebtn = document.getElementById("btn-home");
