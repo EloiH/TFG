@@ -129,6 +129,9 @@ getAllResources();
 
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
+    var dateInfo = document.getElementById("dateInfo");
+    var date = getDate();
+    dateInfo.innerHTML = date;
     if (err) {
         console.error(err);
         return;
@@ -419,7 +422,13 @@ function getVipResources() {
 }
 
 
-
+function getDate(){
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    return dateTime;
+}
 
 
 // ---- INTERFACE ELEMENTS ----
