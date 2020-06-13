@@ -1,24 +1,4 @@
-.seat {
-    fill: white;
-}
 
-.seat.available {
-    fill: green;
-}
-
-.seat.unavailable {
-    fill: grey;
-}
-
-.seat.available:hover,
-.seat.available:hover {
-    cursor: pointer;
-    fill: yellow;
-}
-
-.seat.available.selected {
-    fill: blue;
-} 
 
 /*-----------------------------------------------------------------------*/
 #wrap {

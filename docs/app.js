@@ -130,7 +130,7 @@ getAllResources();
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
     var dateInfo = document.getElementById("dateInfo");
-    var date = getDate();
+    var date = getUserDate();
     dateInfo.innerHTML = date;
     if (err) {
         console.error(err);
@@ -142,6 +142,9 @@ function onLoadBlockmap(err, module) {
     map_module.setElementAvailable(vip_elements); //make sure vip elements are available(for testing)
     map_module.addStatus(vip_elements, "vip");
     vips = map_module.getElementsByStatus("vip")[0].id;
+    
+    var palco = map_module.getElementById(vip_elements);
+    palco.HTMLElement.style.fill = "rgb(0,0,0)";
     getVipResources();
     console.log(vipResource);
     console.log("BLOCKMAP LOADED");
@@ -389,6 +392,7 @@ fetch('https://ipapi.co/json/')
   })
   .then(function(data) {
     web_country = data.country_name;
+    console.log(data);
   });
 }
 
@@ -421,8 +425,27 @@ function getVipResources() {
       }
 }
 
+function getDateResource(){
+    if(success.hasOwnProperty('images') && success.images.length != 0){  
+        for(image in success.images){
+            if(success.images[image].hasOwnProperty("data")){
+                vipResource =  success.images[image];
+                return vipResource;
+            }
+        }
 
-function getDate(){
+      }
+      if(success.hasOwnProperty('videos') && success.videos.length != 0){  
+        for(video in success.videos){
+            if(success.videos[video].hasOwnProperty("data")){
+                vipResource =  success.videos[video];
+                return vipResource;
+            }
+        }
+      }
+}
+
+function getUserDate(){
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
