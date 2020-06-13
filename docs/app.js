@@ -7,6 +7,8 @@ var vip_elements = "S_palco";
 var vips = null;
 var vipResource = null;
 var isVIP = Boolean;
+var adDate = null;
+var adTime = null;
 //ipLook(); //uncomment this line to check the ip of the user and get the access location
 
 readJsonMMC();
@@ -130,8 +132,9 @@ getAllResources();
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
     var dateInfo = document.getElementById("dateInfo");
-    var date = getUserDate();
-    dateInfo.innerHTML = date;
+    var userDate = getUserDate();
+    dateInfo.innerHTML = userDate;
+    getDateResource();
     if (err) {
         console.error(err);
         return;
@@ -429,8 +432,10 @@ function getDateResource(){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
-                vipResource =  success.images[image];
-                return vipResource;
+                adDate =  success.images[image].data;
+                console.log(adDate);
+                //adTime = success.images[image];
+                //console.log(timeAd);
             }
         }
 
@@ -444,6 +449,8 @@ function getDateResource(){
         }
       }
 }
+
+
 
 function getUserDate(){
     var today = new Date();
