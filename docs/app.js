@@ -435,6 +435,8 @@ function getDateResource(){
                 console.log(adDate);
                 adTime = success.images[image].data.time;
                 console.log(adTime);
+                adDuration = success.images[image].data.duration;
+                console.log(adDuration);
             }
         }
 
