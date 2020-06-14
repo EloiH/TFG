@@ -133,11 +133,6 @@ getAllResources();
 
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
-    var dateInfo = document.getElementById("dateInfo");
-    getUserDate();
-    dateInfo.innerHTML = userDate + " " + userTime;
-    
-
     if (err) {
         console.error(err);
         return;
@@ -229,10 +224,13 @@ function onClickSeat(obj) {
 
 
 function onload3dview(view) {
+    var dateInfo = document.getElementById("dateInfo");
+    getUserDate();
+    dateInfo.innerHTML = userDate + " " + userTime;
     var type = "images";
     getDateResource(userDate, userTime);
     console.log(adTime, adDate, userDate,userTime);
-    console.log(adTime.split(":")[0]);
+    console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
     if(userDate === adDate)
     if(isVIP === true){
         resource = vipResource;
@@ -438,14 +436,18 @@ function getDateResource(userDate, userTime){
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
                 if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
-                    if(userDate === success.images[image].data.day && userTime === success.images[image].data.time){
-                        adDate =  success.images[image].data.day;
-                        adTime = success.images[image].data.time;
+                    console.log(success.images[image].data.day);
+                    console.log(success.images[image].data.time);
+                    if(userDate.split("-")[0] === success.images[image].data.day.split(":")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split(":")[0] &&
+                    userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
+                        console.log(success.images[image].data.day);
+                        console.log(success.images[image].data.time);
                     }
 
                 }
 
                 if(success.images[image].data.hasOwnProperty("duration")){
+                    adDuration =  success.images[image].data.duration;
                     if(adDuration.split(" ")[1] ==="s"){
                         adDuration = adDuration.split(" ")[0] * 1000;
                     }
