@@ -20,7 +20,10 @@
             "data":{
                 "day":"12-6-2020",
                 "time":"14:05:10",
-                "duration": "30 seconds"
+                "duration":{
+                    "number": "30",
+                    "type": "seconds"
+                }
             }
         },
         {
