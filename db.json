@@ -20,17 +20,19 @@
             "data":{
                 "day":"12-6-2020",
                 "time":"14:05:10",
-                "duration":{
-                    "number": "30",
-                    "type": "seconds"
-                }
+                "duration": "30 s"
             }
         },
         {
             "id": "4",
             "country": "Netherlands",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
-            "link": "https://3ddigitalvenue.com/"
+            "link": "https://3ddigitalvenue.com/",
+            "data":{
+                "day":"14-6-2020",
+                "time":"23:55:00",
+                "duration": "30 s"
+            }
         },
         {
             "id": "5",
@@ -43,7 +45,12 @@
             "id": "6",
             "country": "USA",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
-            "link": "http://mobilemediacontent.com/"
+            "link": "http://mobilemediacontent.com/",
+            "data":{
+                "day":"15-6-2020",
+                "time":"00:01:00",
+                "duration": "30 s"
+            }
         }
     ],
     "videos":[

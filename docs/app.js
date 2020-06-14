@@ -9,7 +9,9 @@ var vipResource = null;
 var isVIP = Boolean;
 var adDate = null;
 var adTime = null;
-ipLook(); //uncomment this line to check the ip of the user and get the access location
+var adDuration = "10 s";
+var userDate, userTime = null;
+//ipLook(); //uncomment this line to check the ip of the user and get the access location
 
 readJsonMMC();
 
@@ -132,9 +134,10 @@ getAllResources();
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
     var dateInfo = document.getElementById("dateInfo");
-    var userDate = getUserDate();
-    dateInfo.innerHTML = userDate;
-    getDateResource();
+    getUserDate();
+    dateInfo.innerHTML = userDate + " " + userTime;
+    
+
     if (err) {
         console.error(err);
         return;
@@ -227,7 +230,10 @@ function onClickSeat(obj) {
 
 function onload3dview(view) {
     var type = "images";
-    
+    getDateResource(userDate, userTime);
+    console.log(adTime, adDate, userDate,userTime);
+    console.log(adTime.split(":")[0]);
+    if(userDate === adDate)
     if(isVIP === true){
         resource = vipResource;
         console.log("adding vip resource");
@@ -427,38 +433,48 @@ function getVipResources() {
       }
 }
 
-function getDateResource(){
+function getDateResource(userDate, userTime){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
-                adDate =  success.images[image].data.day;
-                console.log(adDate);
-                adTime = success.images[image].data.time;
-                console.log(adTime);
-                adDuration = success.images[image].data.duration;
-                console.log(adDuration);
+                if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
+                    if(userDate === success.images[image].data.day && userTime === success.images[image].data.time){
+                        adDate =  success.images[image].data.day;
+                        adTime = success.images[image].data.time;
+                    }
+
+                }
+
+                if(success.images[image].data.hasOwnProperty("duration")){
+                    if(adDuration.split(" ")[1] ==="s"){
+                        adDuration = adDuration.split(" ")[0] * 1000;
+                    }
+                    else if(adDuration.split(" ")[1] === "m"){
+                        adDuration = adDuration.split(" ")[0] * 60 * 1000;
+                    }
+                    else if(adDuration.split(" ")[1] === "h"){
+                        adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+                    }
+                }
+                if(success.images[image].data.hasOwnProperty("duration") === "false"){ //if there is no duration asociated the default duration will be 5 min
+                    adDuration = 5 * 60 * 1000;
+                }
+                
             }
         }
 
       }
-      if(success.hasOwnProperty('videos') && success.videos.length != 0){  
-        for(video in success.videos){
-            if(success.videos[video].hasOwnProperty("data")){
-                vipResource =  success.videos[video];
-                return vipResource;
-            }
-        }
-      }
+
 }
 
 
 
 function getUserDate(){
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
-    return dateTime;
+    userDate = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+    userTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    //var dateTime = userDate + ' ' + userTime;
+    //return [userDate, userTime];
 }
 
 
