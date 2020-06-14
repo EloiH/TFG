@@ -9,7 +9,7 @@ var vipResource = null;
 var isVIP = Boolean;
 var adDate = null;
 var adTime = null;
-//ipLook(); //uncomment this line to check the ip of the user and get the access location
+ipLook(); //uncomment this line to check the ip of the user and get the access location
 
 readJsonMMC();
 
@@ -395,7 +395,7 @@ fetch('https://ipapi.co/json/')
   })
   .then(function(data) {
     web_country = data.country_name;
-    console.log(data);
+    console.log(data.web_country);
   });
 }
 
@@ -432,10 +432,10 @@ function getDateResource(){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
-                adDate =  success.images[image].data;
+                adDate =  success.images[image].data.day;
                 console.log(adDate);
-                //adTime = success.images[image];
-                //console.log(timeAd);
+                adTime = success.images[image].data.time;
+                console.log(adTime);
             }
         }
 
