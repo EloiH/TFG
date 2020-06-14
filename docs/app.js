@@ -149,7 +149,6 @@ function onLoadBlockmap(err, module) {
     var palco = map_module.getElementById(vip_elements);
     palco.HTMLElement.style.fill = "rgb(0,0,0)";
     getVipResources();
-    console.log(vipResource);
     console.log("BLOCKMAP LOADED");
 }
 
@@ -235,8 +234,8 @@ function onload3dview(view) {
     }
     else {
         var resources = getItemsOfResource(type);
-        //var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
-        var resource = getSpecificResource("6", resources); 
+        var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        //var resource = getSpecificResource("6", resources); 
     }
 
 
@@ -395,7 +394,7 @@ fetch('https://ipapi.co/json/')
   })
   .then(function(data) {
     web_country = data.country_name;
-    console.log(data.web_country);
+    console.log(web_country);
   });
 }
 
