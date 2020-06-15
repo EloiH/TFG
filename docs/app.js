@@ -252,8 +252,9 @@ function onload3dview(view) {
         if(nodes){
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, dateResource);
+            resourceToImage(type, stuff, resource);
             console.log(adDuration);
+            setTimeout(resourceToImage,3000,type, stuff, dateResource);
             setTimeout(resourceToImage,adDuration,type, stuff, resource);
         }
     }
