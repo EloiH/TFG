@@ -221,6 +221,7 @@ function onClickSeat(obj) {
         getUserDate();
         dateInfo.innerHTML = userDate + " " + userTime;
         getDateResource(userDate, userTime);
+        console.log(url, adDuration);
         view3d_module.load(obj.id);
     }
 }
@@ -449,8 +450,7 @@ function getDateResource(userDate, userTime){
 
                     if(userDate.split("-")[0] === success.images[image].data.day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split("-")[1] &&
                     userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
-                        //console.log(success.images[image].data.day);
-                        //console.log(success.images[image].data.time);
+                        url = success.images[image].url;
                     }
 
                 }
