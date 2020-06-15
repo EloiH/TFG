@@ -235,28 +235,48 @@ function onClickSeat(obj) {
 
 function onload3dview(view) {
 
-    
     var type = "images";
-    
+ 
     //console.log(adTime, adDate, userDate,userTime);
     //console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
     //if(userDate === adDate)
-    if(isVIP === true){
+    if(dateActivated === true){
+        var resources = getItemsOfResource(type);
+        resource = getResourceByCountry(web_country, resources);
+
+        if(nodes){
+            var stuff = nodes.s[view];
+            var stuff = nodes.s[view];
+            resourceToImage(type, stuff, dateResource);
+            console.log(adDuration);
+            setTimeout(resourceToImage(type, stuff, resource),adDuration);
+        }
+    }
+    else if(isVIP === true){
         resource = vipResource;
         console.log("adding vip resource");
+        if(nodes){
+            var stuff = nodes.s[view];
+            resourceToImage(type, stuff, resource);
+        }
     }
-    if(dateActivated === true){
-        resource = dateResource;
-    }
+    
     else if(isVIP === false){
         var resources = getItemsOfResource(type);
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         //var resource = getSpecificResource("6", resources); 
+        if(nodes){
+            var stuff = nodes.s[view];
+            resourceToImage(type, stuff, resource);
+        }
+
     }
 
 
-    if (nodes) {
-        var stuff = nodes.s[view];
+
+}
+function resourceToImage(type, stuff, resource){
+
         if (stuff) {    
             if(type === "images") {
                 view3d_module.removeImages();
@@ -275,17 +295,6 @@ function onload3dview(view) {
                     if(type === "images") {
                         console.log(url);
                         addImage(url, position, rotation, size);
-                        if(dateActivated === true){
-                            view3d_module.removeImages();
-                            setTimeout(function() {
-                                console.log("hola");
-                                var resources = getItemsOfResource(type);
-                                resource = getResourceByCountry(web_country, resources);
-                                console.log(resource);
-                                addImage(resource.url, position, rotation, size);
-                                link = resource.link; 
-                            }, dateResource.data.duration);
-                        }
                     }  
                     else {
                         addVideo(url, position, rotation, size);
@@ -294,9 +303,8 @@ function onload3dview(view) {
             }
                 
         }
-    }  
+     
 }
-
 
 function addImage(imgurl, position, rotation, size) {
     //console.log("hola2");
