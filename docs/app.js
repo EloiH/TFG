@@ -217,6 +217,10 @@ function onClickSeat(obj) {
         map_module.unselectAll();
         console.log("CLICK:", obj.id);
         map_module.select(obj);
+        var dateInfo = document.getElementById("dateInfo");
+        getUserDate();
+        dateInfo.innerHTML = userDate + " " + userTime;
+        getDateResource(userDate, userTime);
         view3d_module.load(obj.id);
     }
 }
@@ -224,14 +228,13 @@ function onClickSeat(obj) {
 
 
 function onload3dview(view) {
-    var dateInfo = document.getElementById("dateInfo");
-    getUserDate();
-    dateInfo.innerHTML = userDate + " " + userTime;
+    
+    
     var type = "images";
-    getDateResource(userDate, userTime);
-    console.log(adTime, adDate, userDate,userTime);
-    console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
-    if(userDate === adDate)
+    
+    //console.log(adTime, adDate, userDate,userTime);
+    //console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
+    //if(userDate === adDate)
     if(isVIP === true){
         resource = vipResource;
         console.log("adding vip resource");
@@ -432,13 +435,14 @@ function getVipResources() {
 }
 
 function getDateResource(userDate, userTime){
-    if(success.hasOwnProperty('images') && success.images.length != 0){  
+    if(success.hasOwnProperty('images') && success.images.length != 0){
+        //console.log(success.images);  
         for(image in success.images){
+            //console.log(image);
             if(success.images[image].hasOwnProperty("data")){
+                //console.log(success.images[image]);
                 if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
-                    console.log(success.images[image].data.day);
-                    console.log(success.images[image].data.time);
-                    if(userDate.split("-")[0] === success.images[image].data.day.split(":")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split(":")[0] &&
+                    if(userDate.split("-")[0] === success.images[image].data.day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split("-")[1] &&
                     userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
                         console.log(success.images[image].data.day);
                         console.log(success.images[image].data.time);
