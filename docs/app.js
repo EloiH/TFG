@@ -146,6 +146,7 @@ function onLoadBlockmap(err, module) {
     map_module.setElementAvailable(vip_elements); //make sure vip elements are available(for testing)
     map_module.addStatus(vip_elements, "vip");
     vips = map_module.getElementsByStatus("vip")[0].id;
+    console.log(vips);
     
     var palco = map_module.getElementById(vip_elements);
     palco.HTMLElement.style.fill = "rgb(0,0,0)";
@@ -208,6 +209,7 @@ function onClickBlock(obj) {
 
         if(obj.id === vips){
             isVIP = true;
+            console.log(isVIP);
         }
     }
 }
@@ -246,7 +248,7 @@ function onload3dview(view) {
     if(dateActivated === true){
         resource = dateResource;
     }
-    else {
+    else if(isVIP === false){
         var resources = getItemsOfResource(type);
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         //var resource = getSpecificResource("6", resources); 
@@ -271,14 +273,15 @@ function onload3dview(view) {
                     url = resource.url;
                     link = resource.link;
                     if(type === "images") {
-                        console.log("hola");
+                        console.log(url);
                         addImage(url, position, rotation, size);
                         if(dateActivated === true){
+                            view3d_module.removeImages();
                             setTimeout(function() {
-                                view3d_module.removeImages();
+                                console.log("hola");
                                 var resources = getItemsOfResource(type);
                                 resource = getResourceByCountry(web_country, resources);
-                                
+                                console.log(resource);
                                 addImage(resource.url, position, rotation, size);
                                 link = resource.link; 
                             }, dateResource.data.duration);
@@ -296,7 +299,7 @@ function onload3dview(view) {
 
 
 function addImage(imgurl, position, rotation, size) {
-    console.log("hola2");
+    //console.log("hola2");
     var image_config = {
         url : imgurl,
         instances : [

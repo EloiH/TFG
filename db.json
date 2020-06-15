@@ -10,7 +10,12 @@
             "id": "2",
             "country": "Germany",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank.png",
-            "link": "https://www.upf.edu/"
+            "link": "https://www.upf.edu/",
+            "data":{
+                "day":"15-6-2020",
+                "time":"13:40:00",
+                "duration": "10 s"
+            }
         },
         {
             "id": "3",
@@ -19,7 +24,7 @@
             "link": "http://mobilemediacontent.com/",
             "data":{
                 "day":"15-6-2020",
-                "time":"13:20:00",
+                "time":"13:43:00",
                 "duration": "10 s"
             }
         },
@@ -30,7 +35,7 @@
             "link": "https://3ddigitalvenue.com/",
             "data":{
                 "day":"15-6-2020",
-                "time":"13:23:00",
+                "time":"13:46:00",
                 "duration": "10 s"
             }
         },
@@ -48,7 +53,7 @@
             "link": "http://mobilemediacontent.com/",
             "data":{
                 "day":"15-6-2020",
-                "time":"13:26:00",
+                "time":"13:49:00",
                 "duration": "10 s"
             }
         }
