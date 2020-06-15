@@ -6,7 +6,9 @@ var web_country = null;
 var vip_elements = "S_palco";
 var vips = null;
 var vipResource = null;
+var dateResource = null;
 var isVIP = Boolean;
+var dateActivated = Boolean;
 var adDate = null;
 var adTime = null;
 var adDuration = "10 s";
@@ -138,6 +140,8 @@ function onLoadBlockmap(err, module) {
         return;
     }
     isVIP = false;
+    dateActivated = false;
+
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
     map_module.setElementAvailable(vip_elements); //make sure vip elements are available(for testing)
@@ -266,7 +270,13 @@ function onload3dview(view) {
                     link = resource.link;
                     if(type === "images") {
                         addImage(url, position, rotation, size);
-
+                        if(dateActivated === true){
+                            setTimeout(function() {
+                                view3d_module.removeImages();
+                                addImage(dateResource.url, position, rotation, size);
+                                link = dateResource.link; 
+                            }, dateResource.data.duration);
+                        }
                     }  
                     else {
                         addVideo(url, position, rotation, size);
@@ -450,7 +460,8 @@ function getDateResource(userDate, userTime){
 
                     if(userDate.split("-")[0] === success.images[image].data.day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split("-")[1] &&
                     userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
-                        url = success.images[image].url;
+                        dateActivated = true;
+                        dateResource = success.images[image];
                     }
 
                 }
