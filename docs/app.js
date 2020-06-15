@@ -225,7 +225,7 @@ function onClickSeat(obj) {
         getUserDate();
         dateInfo.innerHTML = userDate + " " + userTime;
         getDateResource(userDate, userTime);
-        console.log(url, adDuration);
+        console.log(dateResource.url, adDuration);
         view3d_module.load(obj.id);
     }
 }
