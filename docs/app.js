@@ -241,15 +241,20 @@ function onload3dview(view) {
     //console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
     //if(userDate === adDate)
     if(dateActivated === true){
-        var resources = getItemsOfResource(type);
-        resource = getResourceByCountry(web_country, resources);
+        if(isVIP === true){
+            resource = vipResource;
+        }
+        else{
+            var resources = getItemsOfResource(type);
+            resource = getResourceByCountry(web_country, resources);
+        }
 
         if(nodes){
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
             resourceToImage(type, stuff, dateResource);
             console.log(adDuration);
-            setTimeout(resourceToImage(type, stuff, resource),adDuration);
+            setTimeout(resourceToImage,adDuration,type, stuff, resource);
         }
     }
     else if(isVIP === true){
