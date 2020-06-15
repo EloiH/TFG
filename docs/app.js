@@ -72,9 +72,9 @@ var config = {
         selection: {
             block: {
                 //this callback will be triggered every time that a block element is selected
-                elementselected: function(element) { /*...*/ },
+                //elementselected: function(element) { /*...*/ },
                 //this callback will be triggered every time that a block element is unselected
-                elementunselected: function(element) { /*...*/ }
+                //elementunselected: function(element) { /*...*/ }
             }
         }
     },
@@ -127,7 +127,6 @@ var map_module = tk3d.loadModule(map_init_config);
 
 
 
-view3d_module.addCallbacks(callbacks);
 
 // ---- LOADING A MAP ----
 map_module.loadMap("blockmap", onLoadBlockmap);
@@ -225,7 +224,7 @@ function onClickSeat(obj) {
         getUserDate();
         dateInfo.innerHTML = userDate + " " + userTime;
         getDateResource(userDate, userTime);
-        console.log(dateResource.url, adDuration);
+        //console.log(dateResource.url, adDuration);
         view3d_module.load(obj.id);
     }
 }
@@ -233,7 +232,7 @@ function onClickSeat(obj) {
 
 
 function onload3dview(view) {
-    
+
     
     var type = "images";
     
@@ -244,9 +243,12 @@ function onload3dview(view) {
         resource = vipResource;
         console.log("adding vip resource");
     }
+    if(dateActivated === true){
+        resource = dateResource;
+    }
     else {
         var resources = getItemsOfResource(type);
-        var resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         //var resource = getSpecificResource("6", resources); 
     }
 
@@ -269,12 +271,16 @@ function onload3dview(view) {
                     url = resource.url;
                     link = resource.link;
                     if(type === "images") {
+                        console.log("hola");
                         addImage(url, position, rotation, size);
                         if(dateActivated === true){
                             setTimeout(function() {
                                 view3d_module.removeImages();
-                                addImage(dateResource.url, position, rotation, size);
-                                link = dateResource.link; 
+                                var resources = getItemsOfResource(type);
+                                resource = getResourceByCountry(web_country, resources);
+                                
+                                addImage(resource.url, position, rotation, size);
+                                link = resource.link; 
                             }, dateResource.data.duration);
                         }
                     }  
@@ -290,6 +296,7 @@ function onload3dview(view) {
 
 
 function addImage(imgurl, position, rotation, size) {
+    console.log("hola2");
     var image_config = {
         url : imgurl,
         instances : [
@@ -306,6 +313,7 @@ function addImage(imgurl, position, rotation, size) {
 }
 
 function addVideo(vidurl, position, rotation, size) {
+    console.log("hola3");
     var video_config = {
         url : vidurl,
         instances : [
