@@ -20,41 +20,6 @@
                     "day":"16-6-2020",
                     "time":"20:10:00",
                     "duration": "10 s"
-                },
-                {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
-                    "link": "http://mobilemediacontent.com/",
-                    "day":"16-6-2020",
-                    "time":"20:12:00",
-                    "duration": "10 s"
-                },
-                {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
-                    "link": "http://mobilemediacontent.com/",
-                    "day":"16-6-2020",
-                    "time":"20:14:00",
-                    "duration": "10 s"
-                },
-                {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
-                    "link": "http://mobilemediacontent.com/",
-                    "day":"16-6-2020",
-                    "time":"20:16:00",
-                    "duration": "10 s"
-                },
-                {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
-                    "link": "http://mobilemediacontent.com/",
-                    "day":"16-6-2020",
-                    "time":"20:18:00",
-                    "duration": "10 s"
-                },
-                {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
-                    "link": "http://mobilemediacontent.com/",
-                    "day":"16-6-2020",
-                    "time":"20:20:00",
-                    "duration": "10 s"
                 }
             ]
                 
@@ -77,14 +42,42 @@
                     "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
                     "link": "https://3ddigitalvenue.com/",
                     "day":"16-6-2020",
-                    "time":"19:26:00",
+                    "time":"20:22:00",
                     "duration": "10 s"
                 },
                 {            
-                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
                     "link": "http://mobilemediacontent.com/",
                     "day":"16-6-2020",
-                    "time":"19:28:00",
+                    "time":"20:24:00",
+                    "duration": "10 s"
+                },
+                {            
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
+                    "link": "http://mobilemediacontent.com/",
+                    "day":"16-6-2020",
+                    "time":"20:26:00",
+                    "duration": "10 s"
+                },
+                {            
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
+                    "link": "http://mobilemediacontent.com/",
+                    "day":"16-6-2020",
+                    "time":"20:28:00",
+                    "duration": "10 s"
+                },
+                {            
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
+                    "link": "http://mobilemediacontent.com/",
+                    "day":"16-6-2020",
+                    "time":"20:30:00",
+                    "duration": "10 s"
+                },
+                {            
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
+                    "link": "http://mobilemediacontent.com/",
+                    "day":"16-6-2020",
+                    "time":"20:32:00",
                     "duration": "10 s"
                 }
             ]
