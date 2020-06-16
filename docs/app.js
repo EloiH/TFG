@@ -252,8 +252,8 @@ function onload3dview(view) {
         if(nodes){
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource);
-            console.log(adDuration, dateResource, resource);
+            resourceToImage(type, stuff, resource.default);
+            console.log(adDuration, dateResource, resource.default);
             setTimeout(resourceToImage,3000,type, stuff, dateResource);
             setTimeout(resourceToImage,adDuration+3000,type, stuff, resource);
         }
@@ -270,11 +270,14 @@ function onload3dview(view) {
     else if(isVIP === false){
         var resources = getItemsOfResource(type);
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        
+        
+        
         console.log(resource);
         //var resource = getSpecificResource("6", resources); 
         if(nodes){
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource);
+            resourceToImage(type, stuff, resource.default);
         }
 
     }
