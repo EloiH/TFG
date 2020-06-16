@@ -11,7 +11,7 @@ var isVIP = Boolean;
 var dateActivated = Boolean;
 var adDate = null;
 var adTime = null;
-var adDuration = "10 s";
+var adDuration = "5 s";
 var userDate, userTime = null;
 //ipLook(); //uncomment this line to check the ip of the user and get the access location
 
@@ -474,44 +474,69 @@ function getDateResource(userDate, userTime){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
-                for(date in success.images.data){
-                    console.log(success.images[image].data[date].time);
-                }
-                if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
-
-                    console.log(userDate.split("-")[0], success.images[image].data.day.split("-")[0]);
-                    console.log(userDate.split("-")[1], success.images[image].data.day.split("-")[1]);
-                    console.log(userTime.split(":")[0], success.images[image].data.time.split(":")[0]);
-                    console.log(userTime.split(":")[1], success.images[image].data.time.split(":")[1]);
-
-                    if(userDate.split("-")[0] === success.images[image].data.day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split("-")[1] &&
-                    userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
-                        dateActivated = true;
-                        dateResource = success.images[image];
+                //console.log(success.images[image].data);
+                if(success.images[image].data.length > 1){
+                    for(date in success.images[image].data){
+                        if(success.images[image].data[date].hasOwnProperty("day") && success.images[image].data[date].hasOwnProperty("time")){
+                            if(userDate.split("-")[0] === success.images[image].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data[date].day.split("-")[1] &&
+                            userTime.split(":")[0] === success.images[image].data[date].time.split(":")[0] && userTime.split(":")[1] === success.images[image].data[date].time.split(":")[1]){
+                                dateActivated = true;
+                                dateResource = success.images[image].data[date];
+                                console.log(dateResource);
+                            }
+        
+                        }
+        
+                        else if(success.images[image].data[date].hasOwnProperty("duration")){
+                            adDuration =  success.images[image].data[date].duration;
+                            if(adDuration.split(" ")[1] ==="s"){
+                                adDuration = adDuration.split(" ")[0] * 1000;
+                            }
+                            else if(adDuration.split(" ")[1] === "m"){
+                                adDuration = adDuration.split(" ")[0] * 60 * 1000;
+                            }
+                            else if(adDuration.split(" ")[1] === "h"){
+                                adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+                            }
+                        }
+                        else if(success.images[image].data[date].hasOwnProperty("duration") === "false"){ //if there is no duration asociated the default duration will be 5 min
+                            adDuration = 5 * 60 * 1000;
+                        }
                     }
-
                 }
-
-                if(success.images[image].data.hasOwnProperty("duration")){
-                    adDuration =  success.images[image].data.duration;
-                    if(adDuration.split(" ")[1] ==="s"){
-                        adDuration = adDuration.split(" ")[0] * 1000;
+                else{
+                    if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
+                        if(userDate.split("-")[0] === success.images[image].data.day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data.day.split("-")[1] &&
+                        userTime.split(":")[0] === success.images[image].data.time.split(":")[0] && userTime.split(":")[1] === success.images[image].data.time.split(":")[1]){
+                            dateActivated = true;
+                            dateResource = success.images[image];
+                            console.log(dateResource); 
+                        }
+    
                     }
-                    else if(adDuration.split(" ")[1] === "m"){
-                        adDuration = adDuration.split(" ")[0] * 60 * 1000;
+    
+                    else if(success.images[image].data.hasOwnProperty("duration")){
+                        adDuration =  success.images[image].data.duration;
+                        if(adDuration.split(" ")[1] ==="s"){
+                            adDuration = adDuration.split(" ")[0] * 1000;
+                        }
+                        else if(adDuration.split(" ")[1] === "m"){
+                            adDuration = adDuration.split(" ")[0] * 60 * 1000;
+                        }
+                        else if(adDuration.split(" ")[1] === "h"){
+                            adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+                        }
                     }
-                    else if(adDuration.split(" ")[1] === "h"){
-                        adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+                    else if(success.images[image].data.hasOwnProperty("duration") === "false"){ //if there is no duration asociated the default duration will be 5 min
+                        adDuration = 5 * 60 * 1000;
                     }
+                    
                 }
-                if(success.images[image].data.hasOwnProperty("duration") === "false"){ //if there is no duration asociated the default duration will be 5 min
-                    adDuration = 5 * 60 * 1000;
-                }
-                
             }
+
         }
 
-      }
+    }
 
 }
 

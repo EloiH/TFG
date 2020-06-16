@@ -14,12 +14,12 @@
             "data":[
                 {
                     "day":"16-6-2020",
-                    "time":"14:30:00",
+                    "time":"16:40:00",
                     "duration": "10 s"
                 },
                 {
                     "day":"16-6-2020",
-                    "time":"14:31:00",
+                    "time":"14:42:00",
                     "duration": "10 s"
                 }
             ]
@@ -30,8 +30,8 @@
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
             "link": "http://mobilemediacontent.com/",
             "data":{
-                "day":"15-6-2020",
-                "time":"16:52:00",
+                "day":"16-6-2020",
+                "time":"16:44:00",
                 "duration": "10 s"
             }
         },
@@ -41,8 +41,8 @@
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
             "link": "https://3ddigitalvenue.com/",
             "data":{
-                "day":"15-6-2020",
-                "time":"16:54:00",
+                "day":"16-6-2020",
+                "time":"16:46:00",
                 "duration": "10 s"
             }
         },
@@ -59,8 +59,8 @@
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
             "link": "http://mobilemediacontent.com/",
             "data":{
-                "day":"15-6-2020",
-                "time":"16:56:00",
+                "day":"16-6-2020",
+                "time":"16:48:00",
                 "duration": "10 s"
             }
         }
