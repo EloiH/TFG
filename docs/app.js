@@ -225,7 +225,7 @@ function onClickSeat(obj) {
         var dateInfo = document.getElementById("dateInfo");
         getUserDate();
         dateInfo.innerHTML = userDate + " " + userTime;
-        getDateResource(userDate, userTime);
+
         view3d_module.load(obj.id);
     }
 }
@@ -240,6 +240,7 @@ function onload3dview(view) {
     //console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
     //if(userDate === adDate)
     if(dateActivated === true){
+        getDateResource(userDate, userTime);
         if(isVIP === true){
             console.log("data and vip");
             var resources = getItemsOfResource(type);
