@@ -254,7 +254,7 @@ function onload3dview(view) {
         }
 
         if(nodes){
-            console.log(dataResource);
+            console.log(dateResource);
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
             resourceToImage(type, stuff, resource);
