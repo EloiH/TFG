@@ -487,7 +487,7 @@ function getDateResource(userDate, userTime){
                             if(userDate.split("-")[0] === success.images[image].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data[date].day.split("-")[1] &&
                             userTime.split(":")[0] === success.images[image].data[date].time.split(":")[0] && userTime.split(":")[1] === success.images[image].data[date].time.split(":")[1]){
                                 dateActivated = true;
-                                dateResource = success.images[image];
+                                dateResource = success.images[image].data[date];
                                 console.log(dateResource);
                             }
         
