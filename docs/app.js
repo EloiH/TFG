@@ -474,10 +474,11 @@ function getDateResource(userDate, userTime){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
             if(success.images[image].hasOwnProperty("data")){
+                for(date in success.images.data){
+                    console.log(success.images[image].data[date].time);
+                }
                 if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
-                    for(date in success.images.data){
-                        console.log(success.images[image].data[date].time);
-                    }
+
                     console.log(userDate.split("-")[0], success.images[image].data.day.split("-")[0]);
                     console.log(userDate.split("-")[1], success.images[image].data.day.split("-")[1]);
                     console.log(userTime.split(":")[0], success.images[image].data.time.split(":")[0]);
