@@ -241,22 +241,25 @@ function onload3dview(view) {
     //if(userDate === adDate)
     if(dateActivated === true){
         if(isVIP === true){
+            console.log("data and vip");
             var resources = getItemsOfResource(type);
-            recource = getResourceByCountry(web_country, resources).vip;
+            resource = getResourceByCountry(web_country, resources).vip;
+            console.log(resource);
         }
         else{
+            console.log("data and no vip");
             var resources = getItemsOfResource(type);
-            resource = getResourceByCountry(web_country, resources);
+            resource = getResourceByCountry(web_country, resources).default;
             console.log(resource);
         }
 
         if(nodes){
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource.default);
-            console.log(adDuration, dateResource, resource.default);
+            resourceToImage(type, stuff, resource);
+            console.log(adDuration, dateResource, resource);
             setTimeout(resourceToImage,3000,type, stuff, dateResource);
-            setTimeout(resourceToImage,adDuration+3000,type, stuff, resource.default);
+            setTimeout(resourceToImage,adDuration+3000,type, stuff, resource);
         }
     }
     else if(isVIP === true){
