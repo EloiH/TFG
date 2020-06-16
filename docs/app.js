@@ -13,7 +13,7 @@ var adDate = null;
 var adTime = null;
 var adDuration = "5 s";
 var userDate, userTime = null;
-//ipLook(); //uncomment this line to check the ip of the user and get the access location
+ipLook(); //uncomment this line to check the ip of the user and get the access location
 
 readJsonMMC();
 
@@ -412,6 +412,7 @@ function getSpecificResource(idPress, resources){
 
 function getResourceByCountry(country, resources){
     var countries = getCountries(resources);
+    console.log(country);
     if(countries.includes(country)){
         for(var i =0; resources.length; i++){
             if(resources[i].country === country){
