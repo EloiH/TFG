@@ -418,7 +418,7 @@ function getSpecificResource(idPress, resources){
 
 function getResourceByCountry(country, resources){
     var countries = getCountries(resources);
-    console.log(country);
+    console.log(country, resources);
     if(countries.includes(country)){
         for(var i =0; resources.length; i++){
             if(resources[i].country === country){
