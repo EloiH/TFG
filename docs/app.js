@@ -241,7 +241,8 @@ function onload3dview(view) {
     //if(userDate === adDate)
     if(dateActivated === true){
         if(isVIP === true){
-            resource = vipResource;
+            var resources = getItemsOfResource(type);
+            recource = getResourceByCountry(web_country, resources).vip;
         }
         else{
             var resources = getItemsOfResource(type);
@@ -259,11 +260,13 @@ function onload3dview(view) {
         }
     }
     else if(isVIP === true){
-        resource = vipResource;
+        var resources = getItemsOfResource(type);
+        resource = getResourceByCountry(web_country, resources);
         console.log("adding vip resource");
         if(nodes){
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource);
+            console.log(resource.vip);
+            resourceToImage(type, stuff, resource.vip);
         }
     }
     
@@ -273,7 +276,7 @@ function onload3dview(view) {
         
         
         
-        console.log(resource);
+        console.log(resource.default);
         //var resource = getSpecificResource("6", resources); 
         if(nodes){
             var stuff = nodes.s[view];
