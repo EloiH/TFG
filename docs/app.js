@@ -246,6 +246,7 @@ function onload3dview(view) {
         else{
             var resources = getItemsOfResource(type);
             resource = getResourceByCountry(web_country, resources);
+            console.log(resource);
         }
 
         if(nodes){
@@ -269,6 +270,7 @@ function onload3dview(view) {
     else if(isVIP === false){
         var resources = getItemsOfResource(type);
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        console.log(resource);
         //var resource = getSpecificResource("6", resources); 
         if(nodes){
             var stuff = nodes.s[view];

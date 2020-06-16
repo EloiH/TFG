@@ -3,21 +3,31 @@
         {
             "id": "1",
             "country": "France",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
-            "link": "http://mobilemediacontent.com/"
+            "default":
+                {
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
+                    "link": "http://mobilemediacontent.com/"
+                }
         },
         {
             "id": "2",
             "country": "Germany",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank.png",
-            "link": "https://www.upf.edu/",
+
+            "default":{
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank.png",
+                "link": "https://www.upf.edu/"
+            },
             "data":[
                 {
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
+                    "link": "https://3ddigitalvenue.com/",
                     "day":"16-6-2020",
                     "time":"17:25:00",
                     "duration": "10 s"
                 },
-                {
+                {            
+                    "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
+                    "link": "http://mobilemediacontent.com/",
                     "day":"16-6-2020",
                     "time":"17:27:00",
                     "duration": "10 s"
@@ -27,10 +37,14 @@
         {
             "id": "3",
             "country": "Canada",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
-            "link": "http://mobilemediacontent.com/",
+            "default":{
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
+                "link": "http://mobilemediacontent.com/"
+            },
             "data":[
                 {
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/november.jpg",
+                "link": "http://mobilemediacontent.com/",
                 "day":"16-6-2020",
                 "time":"17:14:00",
                 "duration": "10 s"
@@ -40,10 +54,14 @@
         {
             "id": "4",
             "country": "Netherlands",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
-            "link": "https://3ddigitalvenue.com/",
+            "default":{
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
+                "link": "https://3ddigitalvenue.com/"
+            },
             "data":[
                 {
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
+                "link": "http://mobilemediacontent.com/",
                 "day":"16-6-2020",
                 "time":"17:16:00",
                 "duration": "10 s"
@@ -53,17 +71,25 @@
         {
             "id": "5",
             "country": "Norway",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
-            "link": "https://www.upf.edu/",
+            "default":{
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
+                "link": "https://www.upf.edu/"
+            },
+
             "vip":"true"
         },
         {
             "id": "6",
             "country": "USA",
-            "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
-            "link": "http://mobilemediacontent.com/",
+            "default":{
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
+                "link": "http://mobilemediacontent.com/"
+            },
+
             "data":[
                 {
+                "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
+                "link": "https://www.upf.edu/",                    
                 "day":"16-6-2020",
                 "time":"17:18:00",
                 "duration": "10 s"
