@@ -14,12 +14,12 @@
             "data":[
                 {
                     "day":"16-6-2020",
-                    "time":"16:54:00",
+                    "time":"17:10:00",
                     "duration": "10 s"
                 },
                 {
                     "day":"16-6-2020",
-                    "time":"14:56:00",
+                    "time":"17:12:00",
                     "duration": "10 s"
                 }
             ]
@@ -29,22 +29,26 @@
             "country": "Canada",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
             "link": "http://mobilemediacontent.com/",
-            "data":{
+            "data":[
+                {
                 "day":"16-6-2020",
-                "time":"16:44:00",
+                "time":"17:14:00",
                 "duration": "10 s"
-            }
+                }
+            ]
         },
         {
             "id": "4",
             "country": "Netherlands",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_black.jpg",
             "link": "https://3ddigitalvenue.com/",
-            "data":{
+            "data":[
+                {
                 "day":"16-6-2020",
-                "time":"16:46:00",
+                "time":"17:16:00",
                 "duration": "10 s"
-            }
+                }
+            ]
         },
         {
             "id": "5",
@@ -58,11 +62,13 @@
             "country": "USA",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
             "link": "http://mobilemediacontent.com/",
-            "data":{
+            "data":[
+                {
                 "day":"16-6-2020",
-                "time":"16:48:00",
+                "time":"17:18:00",
                 "duration": "10 s"
-            }
+                }
+            ]
         }
     ],
     "videos":[
