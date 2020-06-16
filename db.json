@@ -11,11 +11,18 @@
             "country": "Germany",
             "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank.png",
             "link": "https://www.upf.edu/",
-            "data":{
-                "day":"15-6-2020",
-                "time":"16:50:00",
-                "duration": "10 s"
-            }
+            "data":[
+                {
+                    "day":"16-6-2020",
+                    "time":"14:05:00",
+                    "duration": "10 s"
+                }
+                {
+                    "day":"16-6-2020",
+                    "time":"14:06:00",
+                    "duration": "10 s"
+                }
+            ]
         },
         {
             "id": "3",

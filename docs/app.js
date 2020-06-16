@@ -255,7 +255,7 @@ function onload3dview(view) {
             resourceToImage(type, stuff, resource);
             console.log(adDuration);
             setTimeout(resourceToImage,3000,type, stuff, dateResource);
-            setTimeout(resourceToImage,adDuration,type, stuff, resource);
+            setTimeout(resourceToImage,adDuration+3000,type, stuff, resource);
         }
     }
     else if(isVIP === true){
@@ -471,13 +471,13 @@ function getVipResources() {
 }
 
 function getDateResource(userDate, userTime){
-    if(success.hasOwnProperty('images') && success.images.length != 0){
-        //console.log(success.images);  
+    if(success.hasOwnProperty('images') && success.images.length != 0){  
         for(image in success.images){
-            //console.log(image);
             if(success.images[image].hasOwnProperty("data")){
-                //console.log(success.images[image]);
                 if(success.images[image].data.hasOwnProperty("day") && success.images[image].data.hasOwnProperty("time")){
+                    for(date in success.images.data){
+                        console.log(success.images[image].data[date].time);
+                    }
                     console.log(userDate.split("-")[0], success.images[image].data.day.split("-")[0]);
                     console.log(userDate.split("-")[1], success.images[image].data.day.split("-")[1]);
                     console.log(userTime.split(":")[0], success.images[image].data.time.split(":")[0]);
