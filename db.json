@@ -61,7 +61,7 @@
         },
         {
             "id": "2",
-            "country": "Germany",
+            "country": "France",
 
             "default":{
                 "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
@@ -119,7 +119,7 @@
         },
         {
             "id": "3",
-            "country": "A",
+            "country": "Romania",
             "default":{
                 "url": "https://tk3d.pre-tk3dapi.com/activation/images/caixabank_white.jpg",
                 "link": "http://mobilemediacontent.com/"
@@ -153,17 +153,15 @@
         },
         {
             "id": "5",
-            "country": "Norway",
+            "country": "United Kingdom",
             "default":{
                 "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnatural_white.jpg",
                 "link": "https://www.upf.edu/"
-            },
-
-            "vip":"true"
+            }
         },
         {
             "id": "6",
-            "country": "USA",
+            "country": "United States",
             "default":{
                 "url": "https://tk3d.pre-tk3dapi.com/activation/images/gasnaturalfenosa.png",
                 "link": "http://mobilemediacontent.com/"
@@ -211,13 +209,13 @@
         },
         {
             "id": "97",
-            "country": "USA",
+            "country": "Turkey",
             "url": "https://tk3d.pre-tk3dapi.com/activation/videos/sample-480.mp4",
             "link": "https://www.upf.edu/"
         },
         {
             "id": "96",
-            "country": "Spain",
+            "country": "Germany",
             "url": "https://tk3d.pre-tk3dapi.com/activation/videos/sample-720.mp4",
             "link": "http://mobilemediacontent.com/"
         }
