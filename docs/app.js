@@ -260,8 +260,8 @@ function onload3dview(view) {
     else if (isVIP === false) {
         //the default resource will be the default itself
         var resources = getAllResources();
-        //resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
-        var resource = getSpecificResource("99", resources); 
+        resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        //var resource = getSpecificResource("99", resources); 
         if(nodes){
             var stuff = nodes.s[view];
             instantResource(getProp(resource.id), stuff, resource.default);
@@ -296,7 +296,7 @@ function instantResource(type, stuff, resource){
                     }  
                     else {
                         addVideo(url, position, rotation, size);
-                        console.log(url);
+                        //console.log(url);
                     }
                 }
             }
@@ -323,7 +323,6 @@ function addImage(imgurl, position, rotation, size) {
 }
 
 function addVideo(vidurl, position, rotation, size) {
-    console.log("hola3");
     var video_config = {
         url : vidurl,
         instances : [
@@ -492,38 +491,72 @@ function getProp (idResource){
 //       }
 // }
 
+// function getDateResource(userDate, userTime){
+//     if(success.hasOwnProperty('images') && success.images.length != 0){  
+//         for(image in success.images){
+//             if(success.images[image].hasOwnProperty("data")){
+//                     for(date in success.images[image].data){
+//                         if(success.images[image].data[date].hasOwnProperty("day") && success.images[image].data[date].hasOwnProperty("time")){
+//                             if(userDate.split("-")[0] === success.images[image].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data[date].day.split("-")[1] &&
+//                             userTime.split(":")[0] === success.images[image].data[date].time.split(":")[0] && userTime.split(":")[1] === success.images[image].data[date].time.split(":")[1]){
+//                                 dateActivated = true;
+//                                 dateResource = success.images[image].data[date];
+//                                 console.log(dateResource);
+//                             }
+        
+//                         }
+        
+//                         if(success.images[image].data[date].hasOwnProperty("duration")){
+//                             adDuration =  success.images[image].data[date].duration;
+//                             if(adDuration.split(" ")[1] ==="s"){
+//                                 adDuration = adDuration.split(" ")[0] * 1000;
+//                             }
+//                             else if(adDuration.split(" ")[1] === "m"){
+//                                 adDuration = adDuration.split(" ")[0] * 60 * 1000;
+//                             }
+//                             else if(adDuration.split(" ")[1] === "h"){
+//                                 adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+//                             }
+//                         }
+//                     }
+//             }
+
+//         }
+
+//     }
+
+// }
+
 function getDateResource(userDate, userTime){
-    if(success.hasOwnProperty('images') && success.images.length != 0){  
-        for(image in success.images){
-            if(success.images[image].hasOwnProperty("data")){
-                    for(date in success.images[image].data){
-                        if(success.images[image].data[date].hasOwnProperty("day") && success.images[image].data[date].hasOwnProperty("time")){
-                            if(userDate.split("-")[0] === success.images[image].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data[date].day.split("-")[1] &&
-                            userTime.split(":")[0] === success.images[image].data[date].time.split(":")[0] && userTime.split(":")[1] === success.images[image].data[date].time.split(":")[1]){
-                                dateActivated = true;
-                                dateResource = success.images[image].data[date];
-                                console.log(dateResource);
-                            }
-        
+    for(props in success){
+        for(element in success[props]){
+            if(success[props][element].hasOwnProperty("data")){
+                for(date in success[props][element].data){
+                    if(success[props][element].data[date].hasOwnProperty("day") && success[props][element].data[date].hasOwnProperty("time")){
+                        if(userDate.split("-")[0] === success[props][element].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success[props][element].data[date].day.split("-")[1] &&
+                        userTime.split(":")[0] === success[props][element].data[date].time.split(":")[0] && userTime.split(":")[1] === success[props][element].data[date].time.split(":")[1]){
+                            dateActivated = true;
+                            dateResource = success[props][element].data[date];
+                            console.log(dateResource);
                         }
-        
-                        if(success.images[image].data[date].hasOwnProperty("duration")){
-                            adDuration =  success.images[image].data[date].duration;
-                            if(adDuration.split(" ")[1] ==="s"){
-                                adDuration = adDuration.split(" ")[0] * 1000;
-                            }
-                            else if(adDuration.split(" ")[1] === "m"){
-                                adDuration = adDuration.split(" ")[0] * 60 * 1000;
-                            }
-                            else if(adDuration.split(" ")[1] === "h"){
-                                adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
-                            }
+    
+                    }
+    
+                    if(success[props][element].data[date].hasOwnProperty("duration")){
+                        adDuration =  success[props][element].data[date].duration;
+                        if(adDuration.split(" ")[1] ==="s"){
+                            adDuration = adDuration.split(" ")[0] * 1000;
+                        }
+                        else if(adDuration.split(" ")[1] === "m"){
+                            adDuration = adDuration.split(" ")[0] * 60 * 1000;
+                        }
+                        else if(adDuration.split(" ")[1] === "h"){
+                            adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
                         }
                     }
-            }
-
+                }
         }
-
+        }
     }
 
 }
