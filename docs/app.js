@@ -200,9 +200,9 @@ function onClickSeat(obj) {
         dateInfo.innerHTML = userDate + " " + userTime;
         
         //get the resource that match with the user actual date and time, if there is
-        // var resources = getAllResources();
-        // resource = getResourceByCountry(web_country, resources);
-        // getDateResource(userDate, userTime, resource.data);
+        var resources = getAllResources();
+        resource = getResourceByCountry(web_country, resources);
+        getDateResource(userDate, userTime, resource.data);
         
         //load 3d view of the selected seat
         view3d_module.load(obj.id);
@@ -220,9 +220,7 @@ function onload3dview(view) {
             console.log("date and vip");
 
 
-            var resources = getAllResources();
-            resource = getResourceByCountry(web_country, resources);
-            getDateResource(userDate, userTime, resource.data);
+
 
             if (nodes) {
                 var stuff = nodes.s[view];
@@ -534,20 +532,19 @@ function getProp (idResource){
 function getDateResource(userDate, userTime, resource){
     console.log(userDate, userTime, resource);
     for(element in resource){
-            if(resource[element].hasOwnProperty("data")){
-                for(date in resource[element].data){
-                    if(resource[element].data[date].hasOwnProperty("day") && resource[element].data[date].hasOwnProperty("time")){
-                        if(userDate.split("-")[0] === resource[element].data[date].day.split("-")[0] &&  userDate.split("-")[1] === resource[element].data[date].day.split("-")[1] &&
-                        userTime.split(":")[0] === resource[element].data[date].time.split(":")[0] && userTime.split(":")[1] === resource[element].data[date].time.split(":")[1]){
+
+                    if(resource[element].hasOwnProperty("day") && resource[element].hasOwnProperty("time")){
+                        if(userDate.split("-")[0] === resource[element].day.split("-")[0] &&  userDate.split("-")[1] === resource[element].day.split("-")[1] &&
+                        userTime.split(":")[0] === resource[element].time.split(":")[0] && userTime.split(":")[1] === resource[element].time.split(":")[1]){
                             dateActivated = true;
-                            dateResource = resource[element].data[date];
+                            dateResource = resource[element];
                             console.log(dateResource);
                         }
     
                     }
     
-                    if(resource[element].data[date].hasOwnProperty("duration")){
-                        adDuration =  resource[element].data[date].duration;
+                    if(resource[element].hasOwnProperty("duration")){
+                        adDuration =  resource[element].duration;
                         if(adDuration.split(" ")[1] ==="s"){
                             adDuration = adDuration.split(" ")[0] * 1000;
                         }
@@ -559,8 +556,7 @@ function getDateResource(userDate, userTime, resource){
                         }
                     }
                 }
-        }
-        }
+
     
 
 }
