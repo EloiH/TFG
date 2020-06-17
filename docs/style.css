@@ -1,13 +1,7 @@
-
-
-/*-----------------------------------------------------------------------*/
 #wrap {
     height: 100vh;
     text-align: center;
 }
-
-
-
 #header {
     padding: 0 50px;
     position: fixed;
@@ -34,6 +28,9 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+#view3d-container {
+    padding-top: 55px;
+}
 
 .nopadding {
    padding: 0 !important;
@@ -46,11 +43,8 @@ p {
     float: left;
     margin-left: 33px;
 }
-#view3d-container {
-    padding-top: 55px;
-}
 
-#sectionBtn{
+#sectionInfo{
     float: left;
     margin-left: 20px;
 }

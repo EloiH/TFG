@@ -1,33 +1,17 @@
-var nodes = null;
-var success = null;
-var link = null;
-var url = null;
+var nodes, success = null;
+var link, url = null;
 var web_country = null;
-var vip_elements = "S_palco";
-var vips = null;
-var vipResource = null;
-var dateResource = null;
+var vip_elements = ["S_palco"]; //vip elements, usually provided by the venues
+var vips = []; //array that will contai all the vip elements obatined using the MMC api methods
+var vipResource, dateResource = null;
 var isVIP = Boolean;
 var dateActivated = Boolean;
-var adDate = null;
-var adTime = null;
 var adDuration = "5 s";
 var userDate, userTime = null;
-ipLook(); //uncomment this line to check the ip of the user and get the access location
+var allResources =[];
 
-readJsonMMC();
+ipLook(); // uncomment this line to check the ip of the user and get the access location
 
-
-function readJsonMMC(){
-    fetch("./instances.json")
-    .then(function(result) {
-        return result.json();
-    })
-    .then(function(result) {
-        nodes = result;
-        //start();
-    });
-}
 
 // callbacks 3Dview
 var callbacks = {
@@ -44,22 +28,6 @@ var tk3d = new TICKETING3D("eu-es-00051-activation2");
 var view3d_module = new Ticketing3D("view3d-container","eu-es-00051-activation2");
 view3d_module.addCallbacks(callbacks);
 
-
-
-function start() {
-    view3d_module.load("S_214-7-11");
-}
-
-//Event Listeners header
-document.getElementById("header").addEventListener("click", function(event) {
-    if(event.target.id === "navbar-logo3DDV") {
-        window.open("https://3ddigitalvenue.com");
-    }
-});
-
-
-
-
 // Map module config
 var config = {
     callbacks: {
@@ -69,14 +37,6 @@ var config = {
         seat: {
             click: onClickSeat
         },
-        selection: {
-            block: {
-                //this callback will be triggered every time that a block element is selected
-                //elementselected: function(element) { /*...*/ },
-                //this callback will be triggered every time that a block element is unselected
-                //elementunselected: function(element) { /*...*/ }
-            }
-        }
     },
     selection: {
     default: {
@@ -124,13 +84,10 @@ var map_init_config = {
 // Shared map module instance
 var map_module = tk3d.loadModule(map_init_config);
 
-
-
-
-
 // ---- LOADING A MAP ----
 map_module.loadMap("blockmap", onLoadBlockmap);
-getAllResources();
+
+
 
 // ---- ON LOAD CALLBACKS ----
 function onLoadBlockmap(err, module) {
@@ -140,39 +97,44 @@ function onLoadBlockmap(err, module) {
     }
     isVIP = false;
     dateActivated = false;
-
+    // Setting availability
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
-    map_module.setElementAvailable(vip_elements); //make sure vip elements are available(for testing)
-    map_module.addStatus(vip_elements, "vip");
-    vips = map_module.getElementsByStatus("vip")[0].id;
-    console.log(vips);
-    
-    var palco = map_module.getElementById(vip_elements);
-    palco.HTMLElement.style.fill = "rgb(0,0,0)";
-    getVipResources();
+    map_module.setElementAvailable(vip_elements);   // Make sure vip elements are available(for testing)
+    map_module.addStatus(vip_elements, "vip");      // Add status vip to vip_elements
+    vips = map_module.getElementsByStatus("vip");   
+
+    // Change the color of vip elements to black, easy to see for testing
+    for (vip in vips) {
+        map_module.getElementById(vips[vip].id).HTMLElement.style.fill = "rgb(0,0,0)";
+    }
+
     console.log("BLOCKMAP LOADED");
 }
 
 function onLoadSeatmap(err, module) {
+    // Get the information of positions in the JSON of the venue provided by MMC
+    readJsonMMC();
+
     if (err) {
         console.error(err);
         return;
     }
-
+    // set the availability of seats
     var available_seats = getSeatAvailability();
     map_module.setAvailability(available_seats);
+
     console.log("SEATMAP LOADED:", map_module.getMapId());
 }
 
 
 // ---- AVAILABILITY FUNCTIONS ----
-// Get blocks availability. For the purpose, we generate a RANDOM availability.
+// Get blocks availability. For the purpose, I generate a RANDOM availability.
 function getBlockAvailability() {
     var blocks = map_module.getAllElements();
     var available_blocks = [];
 
-    for (var i = 0; i < blocks.length; ++i) {
+    for (var i=0; i<blocks.length; i++) {
         var block = blocks[i];
         if (Math.random() < 0.7) {
             available_blocks.push(block.id);
@@ -187,7 +149,7 @@ function getSeatAvailability() {
     var seats = map_module.getAllElements();
     var available_seats = [];
 
-    for (var i = 0; i < seats.length; ++i) {
+    for (var i=0; i<seats.length; i++) {
         var seat = seats[i];
         if (Math.random() < 0.7) {
             available_seats.push(seat.id);
@@ -197,58 +159,71 @@ function getSeatAvailability() {
     return available_seats;
 }
 
-// Called when user clicks a block
+// Function called when user clicks a block
 function onClickBlock(obj) {
-    //getAllResources();
+    // Get all resources from fake API (db.json)
+    readAllResources();
+
     if (obj && obj.isAvailable()) {
-        var sectionbtn = document.getElementById("sectionBtn");
-        sectionbtn.innerHTML = "Section: "+obj.id;
+        var sectionInfo = document.getElementById("sectionInfo");
+        sectionInfo.innerHTML = "Section: " + obj.id;
+        
         console.log("CLICK:", obj.id);
+        
         map_module.select(obj);
         map_module.loadMap(obj.id, onLoadSeatmap);
 
-        if(obj.id === vips){
-            isVIP = true;
-            console.log(isVIP);
+        // check if the elements selected is vip
+        for (vip in vips) {
+            if (obj.id === vips[vip].id) {
+                isVIP = true;
+            }
         }
     }
 }
 
-// Called when user clicks a seat
+// Function called when user clicks a seat
 function onClickSeat(obj) {
     document.getElementById("view3d-container").style.display = "block";
-    document.getElementById("sectionBtn").style.display = "block";
+    document.getElementById("sectionInfo").style.display = "block";
+
     if (obj && obj.isAvailable()) {
-        map_module.unselectAll();
         console.log("CLICK:", obj.id);
+
+        // unselect all elements before selecting one. There can only be one seat selected at time
+        map_module.unselectAll();
         map_module.select(obj);
+        
+        // get actual date and display it on the screen
+        getActualDate();
         var dateInfo = document.getElementById("dateInfo");
-        getUserDate();
         dateInfo.innerHTML = userDate + " " + userTime;
+        
+        //get the resource that match with the user actual date and time, if there is
         getDateResource(userDate, userTime);
+        
+        //load 3d view of the selected seat
         view3d_module.load(obj.id);
     }
 }
 
 
-
+//Function that will be called when the view3d_module its load
 function onload3dview(view) {
-
-    var type = "images";
+    //var type = "images";
  
-    //console.log(adTime, adDate, userDate,userTime);
-    //console.log(adTime.split(":")[0]+":"+adTime.split(":")[1]);
-    //if(userDate === adDate)
     if(dateActivated === true){
         if(isVIP === true){
             console.log("data and vip");
-            var resources = getItemsOfResource(type);
+            //var resources = getItemsOfResource(type);
+            var resources = getAllResources();
             resource = getResourceByCountry(web_country, resources).vip;
             console.log(resource);
         }
         else{
             console.log("data and no vip");
-            var resources = getItemsOfResource(type);
+            //var resources = getItemsOfResource(type);
+            var resources = getAllResources();
             resource = getResourceByCountry(web_country, resources).default;
             console.log(resource);
         }
@@ -257,34 +232,39 @@ function onload3dview(view) {
             console.log(dateResource);
             var stuff = nodes.s[view];
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource);
+            instantResource(getProp(resource.id), stuff, resource);
             console.log(adDuration, dateResource, resource);
-            setTimeout(resourceToImage,3000,type, stuff, dateResource);
-            setTimeout(resourceToImage,adDuration+3000,type, stuff, resource);
+            setTimeout(instantResource,3000,getProp(dateResource.id), stuff, dateResource);
+            setTimeout(instantResource,adDuration+3000,getProp(resource.id), stuff, resource);
         }
     }
     else if(isVIP === true){
-        var resources = getItemsOfResource(type);
+        //var resources = getItemsOfResource(type);
+        var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources);
         console.log("adding vip resource");
+        console.log(resource);
+        console.log(nodes);
         if(nodes){
+            console.log("Hols");
             var stuff = nodes.s[view];
             console.log(resource.vip);
-            resourceToImage(type, stuff, resource.vip);
+            instantResource(getProp(resource.id), stuff, resource.vip);
         }
     }
     
     else if(isVIP === false){
-        var resources = getItemsOfResource(type);
+        //var resources = getItemsOfResource(type);
+        var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         
         
         
-        console.log(resource.default);
+        console.log(resource.id);
         //var resource = getSpecificResource("6", resources); 
         if(nodes){
             var stuff = nodes.s[view];
-            resourceToImage(type, stuff, resource.default);
+            instantResource(getProp(resource.id), stuff, resource.default);
         }
 
     }
@@ -292,7 +272,7 @@ function onload3dview(view) {
 
 
 }
-function resourceToImage(type, stuff, resource){
+function instantResource(type,stuff, resource){
 
         if (stuff) {    
             if(type === "images") {
@@ -309,8 +289,8 @@ function resourceToImage(type, stuff, resource){
                     
                     url = resource.url;
                     link = resource.link;
+                    console.log(link);
                     if(type === "images") {
-                        console.log(url);
                         addImage(url, position, rotation, size);
                     }  
                     else {
@@ -373,8 +353,19 @@ function onvideoclicked(res) {
 
 
 /*-------------------Pressenger API simulation calls-----------------------------*/
+//Function to obtain the position information of the 3d venue by MMC
+function readJsonMMC(){
+    fetch("./instances.json")
+    .then(function(result) {
+        return result.json();
+    })
+    .then(function(result) {
+        nodes = result;
+    });
+}
 
-function getAllResources(){
+
+function readAllResources(){
     const api_url = "https://my-json-server.typicode.com/eloih/tfg/db";
 
 fetch(api_url)
@@ -391,15 +382,24 @@ fetch(api_url)
     });
 
 }
-
 //Return all the items of a specific resource: images or videos (by the moment)
 function getItemsOfResource(resourceType) {
     for(var props in success){
         if(props === resourceType){
             images = success[props];
+            console.log(images);
             return images;
         }
     }
+}
+//Get all Resources together in a array
+function getAllResources() {
+    for(props in success){
+        for(element in success[props]){
+            allResources.push(success[props][element]);
+        }
+    }
+    return allResources;
 }
 
 //Return a specific image or video
@@ -460,27 +460,35 @@ function getCountries(resources){
     }
     return countries_array;
 }
-
-
-function getVipResources() {
-    if(success.hasOwnProperty('images') && success.images.length != 0){  
-        for(image in success.images){
-            if(success.images[image].hasOwnProperty("vip")){
-                vipResource =  success.images[image];
-                return vipResource;
+function getProp (idResource){
+    for(props in success){
+        for(element in success[props]){
+            if(success[props][element].id === idResource){
+                return props;
             }
         }
-
-      }
-      if(success.hasOwnProperty('videos') && success.videos.length != 0){  
-        for(video in success.videos){
-            if(success.videos[video].hasOwnProperty("vip")){
-                vipResource =  success.videos[video];
-                return vipResource;
-            }
-        }
-      }
+    }
 }
+
+// function getVipResources() {
+//     if(success.hasOwnProperty('images') && success.images.length != 0){  
+//         for(image in success.images){
+//             if(success.images[image].hasOwnProperty("vip")){
+//                 vipResource =  success.images[image];
+//                 return vipResource;
+//             }
+//         }
+
+//       }
+//       if(success.hasOwnProperty('videos') && success.videos.length != 0){  
+//         for(video in success.videos){
+//             if(success.videos[video].hasOwnProperty("vip")){
+//                 vipResource =  success.videos[video];
+//                 return vipResource;
+//             }
+//         }
+//       }
+// }
 
 function getDateResource(userDate, userTime){
     if(success.hasOwnProperty('images') && success.images.length != 0){  
@@ -520,12 +528,10 @@ function getDateResource(userDate, userTime){
 
 
 
-function getUserDate(){
+function getActualDate(){
     var today = new Date();
     userDate = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
     userTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //var dateTime = userDate + ' ' + userTime;
-    //return [userDate, userTime];
 }
 
 
@@ -536,7 +542,13 @@ if (homebtn) {
     homebtn.addEventListener("click", function(event) {
         // event.preventDefault();
         document.getElementById("view3d-container").style.display = "none";
-        document.getElementById("sectionBtn").style.display = "none";
+        document.getElementById("sectionInfo").style.display = "none";
         map_module.loadMap("blockmap", onLoadBlockmap);
     });
 }
+
+document.getElementById("header").addEventListener("click", function(event) {
+    if(event.target.id === "navbar-logo3DDV") {
+        window.open("https://3ddigitalvenue.com");
+    }
+});
