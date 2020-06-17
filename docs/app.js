@@ -10,7 +10,7 @@ var adDuration = "5 s";
 var userDate, userTime = null;
 var allResources =[];
 
-ipLook(); // uncomment this line to check the ip of the user and get the access location
+ipLook(); // check the ip of the user and get the access location
 
 
 // callbacks 3Dview
