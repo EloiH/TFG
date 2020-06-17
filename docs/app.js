@@ -209,51 +209,51 @@ function onClickSeat(obj) {
 
 
 //Function that will be called when the view3d_module its load
-function onload3dview(view) {
-    //var type = "images";
- 
-    if(dateActivated === true){
-        if(isVIP === true){
+function onload3dview(view) { 
+    // if date is activated
+    if (dateActivated === true) {
+        // and vip is activated
+        if (isVIP === true) {
+            //the default resource is vip resource
             console.log("data and vip");
-            //var resources = getItemsOfResource(type);
             var resources = getAllResources();
             resource = getResourceByCountry(web_country, resources).vip;
             console.log(resource);
         }
-        else{
+        //if date is activated but vip is not
+        else {
+            //the default reosource its the default itself
             console.log("data and no vip");
-            //var resources = getItemsOfResource(type);
             var resources = getAllResources();
+            console.log(web_country);
             resource = getResourceByCountry(web_country, resources).default;
             console.log(resource);
         }
 
-        if(nodes){
-            console.log(dateResource);
+        if (nodes) {
             var stuff = nodes.s[view];
-            var stuff = nodes.s[view];
+            //show the default resource, after 3 seconds change to date resource and then return to default
             instantResource(getProp(resource.id), stuff, resource);
             console.log(adDuration, dateResource, resource);
-            setTimeout(instantResource,3000,getProp(dateResource.id), stuff, dateResource);
-            setTimeout(instantResource,adDuration+3000,getProp(resource.id), stuff, resource);
+            setTimeout(instantResource, 3000, getProp(dateResource.id), stuff, dateResource);
+            setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource);
         }
     }
-    else if(isVIP === true){
-        //var resources = getItemsOfResource(type);
+    // if vip is activated
+    else if (isVIP === true){
         var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources);
         console.log("adding vip resource");
-        console.log(resource);
-        console.log(nodes);
-        if(nodes){
-            console.log("Hols");
+        // the default resource will be vip resource
+        if (nodes) {
             var stuff = nodes.s[view];
             console.log(resource.vip);
             instantResource(getProp(resource.id), stuff, resource.vip);
         }
     }
-    
-    else if(isVIP === false){
+    //if vip is no activated and neither date
+    else if (isVIP === false) {
+        //the default resource will be the default itself
         //var resources = getItemsOfResource(type);
         var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
@@ -272,7 +272,8 @@ function onload3dview(view) {
 
 
 }
-function instantResource(type,stuff, resource){
+function instantResource(type, stuff, resource){
+    console.log(type);
 
         if (stuff) {    
             if(type === "images") {
