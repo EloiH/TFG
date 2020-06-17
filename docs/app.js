@@ -100,13 +100,16 @@ function onLoadBlockmap(err, module) {
     // Setting availability
     var available_blocks = getBlockAvailability();
     map_module.setAvailability(available_blocks);
-    map_module.setElementAvailable(vip_elements);   // Make sure vip elements are available(for testing)
-    map_module.addStatus(vip_elements, "vip");      // Add status vip to vip_elements
-    vips = map_module.getElementsByStatus("vip");   
-
-    // Change the color of vip elements to black, easy to see for testing
-    for (vip in vips) {
-        map_module.getElementById(vips[vip].id).HTMLElement.style.fill = "rgb(0,0,0)";
+    if(vip_elements){
+        map_module.setElementAvailable(vip_elements);   // Make sure vip elements are available(for testing)
+        map_module.addStatus(vip_elements, "vip");      // Add status vip to vip_elements
+        vips = map_module.getElementsByStatus("vip");   
+    
+        // Change the color of vip elements to black, easy to see for testing
+        for (vip in vips) {
+            map_module.getElementById(vips[vip].id).HTMLElement.style.fill = "rgb(0,0,0)";
+        }
+    
     }
 
     console.log("BLOCKMAP LOADED");
@@ -219,15 +222,14 @@ function onload3dview(view) {
             //the default resource is vip resource
             console.log("date and vip");
 
-
-
-
             if (nodes) {
                 var stuff = nodes.s[view];
                 //show the vip resource, after 3 seconds change to date resource and then return to vip
-                instantResource(getProp(resource.id), stuff, resource.vip);
-                setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
-                setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.vip);
+                if (resource.hasOwnProperty("vip")) {
+                    instantResource(getProp(resource.id), stuff, resource.vip);
+                    setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
+                    setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.vip);
+                }
             }
         }
         //if date is activated but vip is not
@@ -240,10 +242,12 @@ function onload3dview(view) {
  
             if (nodes) {
                 var stuff = nodes.s[view];
-                //show the default resource, after 3 seconds change to date resource and then return to default
-                instantResource(getProp(resource.id), stuff, resource.default);
-                setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
-                setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.default);
+                if (resource.hasOwnProperty("default")) {
+                    //show the default resource, after 3 seconds change to date resource and then return to default
+                    instantResource(getProp(resource.id), stuff, resource.default);
+                    setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
+                    setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.default);
+                }
             }
         }    
     }
@@ -255,7 +259,10 @@ function onload3dview(view) {
         // the default resource will be vip resource
         if (nodes) {
             var stuff = nodes.s[view];
-            instantResource(getProp(resource.id), stuff, resource.vip);
+            if(resource.hasOwnProperty("vip")){
+                instantResource(getProp(resource.id), stuff, resource.vip);
+            }
+
         }
     }
     //if vip is no activated and neither date
@@ -264,21 +271,19 @@ function onload3dview(view) {
         var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         //var resource = getSpecificResource("99", resources); 
-        if(nodes){
+        if (nodes) {
             var stuff = nodes.s[view];
             instantResource(getProp(resource.id), stuff, resource.default);
         }
 
     }
-
-
-
 }
+
+//Function that get the position of the planes where the resources will bw insert and call the apropiate function
 function instantResource(type, stuff, resource){
     console.log(type);
-
         if (stuff) {    
-            if(type === "images") {
+            if (type === "images") {
                 view3d_module.removeImages();
             }  
             else {
@@ -292,8 +297,8 @@ function instantResource(type, stuff, resource){
                     
                     url = resource.url;
                     link = resource.link;
-                    console.log(link);
-                    if(type === "images") {
+                    //console.log(link);
+                    if (type === "images") {
                         addImage(url, position, rotation, size);
                     }  
                     else {
@@ -307,8 +312,8 @@ function instantResource(type, stuff, resource){
      
 }
 
+// Function that creates the configuration of an image and call the API method addImage
 function addImage(imgurl, position, rotation, size) {
-    //console.log("hola2");
     var image_config = {
         url : imgurl,
         instances : [
@@ -320,10 +325,10 @@ function addImage(imgurl, position, rotation, size) {
             }
         ]
     };
-    
     view3d_module.addImage(image_config);
 }
 
+// Function that creates the configuration of a video and call the API method addImage
 function addVideo(vidurl, position, rotation, size) {
     var video_config = {
         url : vidurl,
@@ -339,7 +344,7 @@ function addVideo(vidurl, position, rotation, size) {
     view3d_module.addVideo(video_config);
 }
 
-
+// Function that will be triggered when the user clicks on an image or video. It will open a link in a blank page
 function onimageclicked(res) {
     window.open(link, "_blank");
     console.log("Click image!", res);
@@ -351,12 +356,7 @@ function onvideoclicked(res) {
 }
 
 
-
-
-
-
-/*-------------------Pressenger API simulation calls-----------------------------*/
-//Function to obtain the position information of the 3d venue by MMC
+// Function to obtain the JSON with the position information of the 3d venue by MMC
 function readJsonMMC(){
     fetch("./instances.json")
     .then(function(result) {
@@ -367,7 +367,7 @@ function readJsonMMC(){
     });
 }
 
-
+// Function to obtain the JSON with the resources that fakes an external Resources API
 function readAllResources(){
     const api_url = "https://my-json-server.typicode.com/eloih/tfg/db";
 
@@ -385,7 +385,8 @@ fetch(api_url)
     });
 
 }
-//Return all the items of a specific resource: images or videos (by the moment)
+
+// Get all the items of a specific resource: images or videos (by the moment)
 function getItemsOfResource(resourceType) {
     for(var props in success){
         if(props === resourceType){
@@ -395,7 +396,8 @@ function getItemsOfResource(resourceType) {
         }
     }
 }
-//Get all Resources together in a array
+
+// Get all Resources together, without separation on images and videos
 function getAllResources() {
     for(props in success){
         for(element in success[props]){
@@ -405,7 +407,7 @@ function getAllResources() {
     return allResources;
 }
 
-//Return a specific image or video
+// Get a specific image or video knowing the id
 function getSpecificResource(idPress, resources){
     var ids = getIds(resources);
     if(ids.includes(idPress)){
@@ -420,6 +422,7 @@ function getSpecificResource(idPress, resources){
     }
 }
 
+// Get a Resource depending on the country of the user. If this dont match any of the resources countries, get the first resource
 function getResourceByCountry(country, resources){
     var countries = getCountries(resources);
     console.log(country, resources);
@@ -435,7 +438,7 @@ function getResourceByCountry(country, resources){
     }
 }
 
-
+// Get all the resources ids availabe
 function getIds(resources){
     var ids_array = [];
     for(var i=0; i<resources.length; i++){
@@ -444,7 +447,7 @@ function getIds(resources){
     return ids_array;
 }
 
-// Function to obtain the IP adress location
+// Function to obtain the IP adress location using IPAPI
 function ipLook(){
 fetch('https://ipapi.co/json/')
   .then(function(response) {
@@ -456,6 +459,7 @@ fetch('https://ipapi.co/json/')
   });
 }
 
+// Function to get all Countries resources
 function getCountries(resources){
     var countries_array = [];
     for(var i=0; i<resources.length; i++){
@@ -463,6 +467,8 @@ function getCountries(resources){
     }
     return countries_array;
 }
+
+// Function that get the tyoe of resource(image or video) knowing the id of that resource
 function getProp (idResource){
     for(props in success){
         for(element in success[props]){
@@ -473,96 +479,41 @@ function getProp (idResource){
     }
 }
 
-// function getVipResources() {
-//     if(success.hasOwnProperty('images') && success.images.length != 0){  
-//         for(image in success.images){
-//             if(success.images[image].hasOwnProperty("vip")){
-//                 vipResource =  success.images[image];
-//                 return vipResource;
-//             }
-//         }
+// Function to obtain the Resource (if there is) that match it's date with the date of the user when click a seat 
+function getDateResource(userDate, userTime, dates){
+    console.log(userDate, userTime, dates);
+    //check every date element, if theres is a day and time that match the user date and time, return that element
+    for(element in dates){
+        if(dates[element].hasOwnProperty("day") && dates[element].hasOwnProperty("time")){
+            if(userDate.split("-")[0] === dates[element].day.split("-")[0] &&  userDate.split("-")[1] === dates[element].day.split("-")[1] &&
+            userTime.split(":")[0] === dates[element].time.split(":")[0] && userTime.split(":")[1] === dates[element].time.split(":")[1]){
+                dateActivated = true;
+                dateResource = dates[element];
+                console.log(dateResource);
+            }
 
-//       }
-//       if(success.hasOwnProperty('videos') && success.videos.length != 0){  
-//         for(video in success.videos){
-//             if(success.videos[video].hasOwnProperty("vip")){
-//                 vipResource =  success.videos[video];
-//                 return vipResource;
-//             }
-//         }
-//       }
-// }
+        }
 
-// function getDateResource(userDate, userTime){
-//     if(success.hasOwnProperty('images') && success.images.length != 0){  
-//         for(image in success.images){
-//             if(success.images[image].hasOwnProperty("data")){
-//                     for(date in success.images[image].data){
-//                         if(success.images[image].data[date].hasOwnProperty("day") && success.images[image].data[date].hasOwnProperty("time")){
-//                             if(userDate.split("-")[0] === success.images[image].data[date].day.split("-")[0] &&  userDate.split("-")[1] === success.images[image].data[date].day.split("-")[1] &&
-//                             userTime.split(":")[0] === success.images[image].data[date].time.split(":")[0] && userTime.split(":")[1] === success.images[image].data[date].time.split(":")[1]){
-//                                 dateActivated = true;
-//                                 dateResource = success.images[image].data[date];
-//                                 console.log(dateResource);
-//                             }
-        
-//                         }
-        
-//                         if(success.images[image].data[date].hasOwnProperty("duration")){
-//                             adDuration =  success.images[image].data[date].duration;
-//                             if(adDuration.split(" ")[1] ==="s"){
-//                                 adDuration = adDuration.split(" ")[0] * 1000;
-//                             }
-//                             else if(adDuration.split(" ")[1] === "m"){
-//                                 adDuration = adDuration.split(" ")[0] * 60 * 1000;
-//                             }
-//                             else if(adDuration.split(" ")[1] === "h"){
-//                                 adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
-//                             }
-//                         }
-//                     }
-//             }
-
-//         }
-
-//     }
-
-// }
-
-function getDateResource(userDate, userTime, resource){
-    console.log(userDate, userTime, resource);
-    for(element in resource){
-
-                    if(resource[element].hasOwnProperty("day") && resource[element].hasOwnProperty("time")){
-                        if(userDate.split("-")[0] === resource[element].day.split("-")[0] &&  userDate.split("-")[1] === resource[element].day.split("-")[1] &&
-                        userTime.split(":")[0] === resource[element].time.split(":")[0] && userTime.split(":")[1] === resource[element].time.split(":")[1]){
-                            dateActivated = true;
-                            dateResource = resource[element];
-                            console.log(dateResource);
-                        }
-    
-                    }
-    
-                    if(resource[element].hasOwnProperty("duration")){
-                        adDuration =  resource[element].duration;
-                        if(adDuration.split(" ")[1] ==="s"){
-                            adDuration = adDuration.split(" ")[0] * 1000;
-                        }
-                        else if(adDuration.split(" ")[1] === "m"){
-                            adDuration = adDuration.split(" ")[0] * 60 * 1000;
-                        }
-                        else if(adDuration.split(" ")[1] === "h"){
-                            adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
-                        }
-                    }
-                }
+        if(dates[element].hasOwnProperty("duration")){
+            adDuration =  dates[element].duration;
+            if(adDuration.split(" ")[1] ==="s"){
+                adDuration = adDuration.split(" ")[0] * 1000;
+            }
+            else if(adDuration.split(" ")[1] === "m"){
+                adDuration = adDuration.split(" ")[0] * 60 * 1000;
+            }
+            else if(adDuration.split(" ")[1] === "h"){
+                adDuration = adDuration.split(" ")[0] * 60 * 60 * 1000;
+            }
+        }
+    }
 
     
 
 }
 
 
-
+//Function to obatin the date at the moment
 function getActualDate(){
     var today = new Date();
     userDate = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
