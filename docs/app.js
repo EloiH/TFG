@@ -215,47 +215,35 @@ function onload3dview(view) {
         // and vip is activated
         if (isVIP === true) {
             //the default resource is vip resource
-            console.log("data and vip");
+            console.log("date and vip");
+
             var resources = getAllResources();
             resource = getResourceByCountry(web_country, resources);
-            console.log(resource.id, resource.vip);
+
             if (nodes) {
                 var stuff = nodes.s[view];
-                //show the default resource, after 3 seconds change to date resource and then return to default
+                //show the vip resource, after 3 seconds change to date resource and then return to vip
                 instantResource(getProp(resource.id), stuff, resource.vip);
-                console.log(adDuration, dateResource, resource);
-                setTimeout(instantResource, 3000, getProp(dateResource.id), stuff, dateResource);
+                setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
                 setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.vip);
             }
         }
         //if date is activated but vip is not
         else {
             //the default reosource its the default itself
-            console.log("data and no vip");
+            console.log("date and no vip");
+
             var resources = getAllResources();
-            console.log(web_country);
             resource = getResourceByCountry(web_country, resources);
-            console.log(resource, resource.default);
+ 
             if (nodes) {
                 var stuff = nodes.s[view];
-                console.log(getProp(resource.id));
-                console.log(getProp(dateResource.id));
                 //show the default resource, after 3 seconds change to date resource and then return to default
                 instantResource(getProp(resource.id), stuff, resource.default);
-                console.log(adDuration, dateResource, resource.default);
                 setTimeout(instantResource, 3000, getProp(resource.id), stuff, dateResource);
                 setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource.default);
             }
-        }
-
-        if (nodes) {
-            var stuff = nodes.s[view];
-            //show the default resource, after 3 seconds change to date resource and then return to default
-            instantResource(getProp(resource.id), stuff, resource);
-            console.log(adDuration, dateResource, resource);
-            setTimeout(instantResource, 3000, getProp(dateResource.id), stuff, dateResource);
-            setTimeout(instantResource, adDuration + 3000, getProp(resource.id), stuff, resource);
-        }
+        }    
     }
     // if vip is activated
     else if (isVIP === true){
@@ -265,21 +253,15 @@ function onload3dview(view) {
         // the default resource will be vip resource
         if (nodes) {
             var stuff = nodes.s[view];
-            console.log(resource.vip);
             instantResource(getProp(resource.id), stuff, resource.vip);
         }
     }
     //if vip is no activated and neither date
     else if (isVIP === false) {
         //the default resource will be the default itself
-        //var resources = getItemsOfResource(type);
         var resources = getAllResources();
-        resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
-        
-        
-        
-        console.log(resource.id);
-        //var resource = getSpecificResource("6", resources); 
+        //resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
+        var resource = getSpecificResource("99", resources); 
         if(nodes){
             var stuff = nodes.s[view];
             instantResource(getProp(resource.id), stuff, resource.default);
@@ -308,7 +290,7 @@ function instantResource(type, stuff, resource){
                     
                     url = resource.url;
                     link = resource.link;
-                    //console.log(link);
+                    console.log(link);
                     if(type === "images") {
                         addImage(url, position, rotation, size);
                     }  
