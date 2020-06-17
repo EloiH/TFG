@@ -296,6 +296,7 @@ function instantResource(type, stuff, resource){
                     }  
                     else {
                         addVideo(url, position, rotation, size);
+                        console.log(url);
                     }
                 }
             }
