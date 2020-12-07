@@ -3,7 +3,7 @@ var link, url = null;
 var web_country = null;
 var vip_elements = ["S_palco"]; //vip elements, usually provided by the venues
 var vips = []; //array that will contai all the vip elements obatined using the MMC api methods
-var vipResource, dateResource = null;
+var dateResource = null;
 var isVIP = Boolean;
 var dateActivated = Boolean;
 var adDuration = "5 s";
@@ -253,6 +253,7 @@ function onload3dview(view) {
     }
     // if vip is activated
     else if (isVIP === true){
+        var resources = [];
         var resources = getAllResources();
         resource = getResourceByCountry(web_country, resources);
         console.log("adding vip resource");
@@ -269,6 +270,7 @@ function onload3dview(view) {
     else if (isVIP === false) {
         //the default resource will be the default itself
         var resources = getAllResources();
+        //console.log(resources);
         resource = getResourceByCountry(web_country, resources); //uncomment this line and comment next line to change the way to charge a resource, by id or by country
         //var resource = getSpecificResource("99", resources); 
         if (nodes) {
@@ -399,6 +401,7 @@ function getItemsOfResource(resourceType) {
 
 // Get all Resources together, without separation on images and videos
 function getAllResources() {
+    allResources = [];
     for(props in success){
         for(element in success[props]){
             allResources.push(success[props][element]);
@@ -423,18 +426,18 @@ function getSpecificResource(idPress, resources){
 }
 
 // Get a Resource depending on the country of the user. If this dont match any of the resources countries, get the first resource
-function getResourceByCountry(country, resources){
-    var countries = getCountries(resources);
-    console.log(country, resources);
+function getResourceByCountry(country, res){
+    var countries = getCountries(res);
+    console.log(country, res);
     if(countries.includes(country)){
-        for(var i =0; resources.length; i++){
-            if(resources[i].country === country){
-                return resources[i];
+        for(var i =0; res.length; i++){
+            if(res[i].country === country){
+                return res[i];
             }
         }
     }
     else{
-        return resources[0];
+        return res[0];
     }
 }
 

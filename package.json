@@ -1,0 +1,32 @@
+{
+  "name": "tfg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "gif-frames": "^1.0.1",
+    "nedb": "^1.8.0",
+    "require": "^2.4.20",
+    "save-pixels-jpeg-js-upgrade": "^2.3.4-jpeg-js-upgrade.0",
+    "uniqid": "^5.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EloiH/TFG.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EloiH/TFG/issues"
+  },
+  "homepage": "https://github.com/EloiH/TFG#readme"
+}

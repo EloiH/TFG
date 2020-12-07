@@ -1,0 +1,35 @@
+html,
+body,
+header,
+#intro {
+  height: 100%;
+}
+#intro {
+  background: no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#wrap {
+  height: 100vh;
+  text-align: center;
+}
+
+#header {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+  background: #000;
+}
+.container {
+  display: block !important;
+}
+#users{
+  position:sticky;
+  top: 50%;
+  right: 50%;
+}
+
