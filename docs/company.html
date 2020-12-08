@@ -28,6 +28,10 @@
     <!--Font Awesome-->
     <link href="fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet"> <!--load all styles -->
 
+    <!-- Toastr -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
     <title>TFG</title>
 
 
@@ -50,31 +54,35 @@
 
     <div id="page-content" class="row">
         <div class="col-md-12">
-            <div id="exit">
-                <a href="index.html">
-                    <button id="btn_exit" type="button" class="btn btn-dark btn-sm">Exit<i class="fas fa-undo-alt"></i></button>
+            <a href="index.html">
+                <button id="btn_exit" type="button" class="btn btn-dark btn-sm">Exit
+                    <i class="fas fa-undo-alt"></i>
+                  </button>
                 </a>
                 <h3 style="display: inline;">Manage Your Advertising Campaign</h3>
             </div>
-        <div id="form" class="row">
-            <form>
+        </div>
+        <div class="row">
+        <div class="col-md-9">
+        <div class="row">
+            <form id="form">
                 <div class="form-row">
-                    <div><h5>User: </h5></div>    
-                </div>
+                    <div><h5 id="username">User: </h5></div>    
+                </div>                                 
                 
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Default File</span>
+                        <span class="input-group-text" id="inputGroupFileAddon01" required>Campaign Name</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <input id="campaignName" type="text" class="form-control" placeholder="Example: France day 22/8/2020" required>
                     </div>
-                </div>                                   
-                
+                </div>
+
+
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Country</span> 
+                        <span class="input-group-text" id="inputGroupFileAddon02">Country</span> 
                         <select id="country" name="country">
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
@@ -325,8 +333,8 @@
                         </select>                    
                 
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <input type="file" class="custom-file-input" id="inputGroupFile02" aria-describedby="inputGroupFileAddon01" required>
+                        <label id="labelcountry" class="custom-file-label" for="inputGroupFile02">Choose file</label>
                     </div>
 
                     </div>
@@ -337,41 +345,49 @@
                         <span class="input-group-text" id="inputGroupFileAddon03">VIP File</span>
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon01" required>
+                        <label id="labelvip" class="custom-file-label" for="inputGroupFile03">Choose file</label>
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">File for specific time</span>
+                        <span class="input-group-text" id="inputGroupFileAddon04">Specific time</span>
+                        <input type="datetime-local" id="timeAdd" name="adv-time" value="2020-12-08T05:30" min="2020-12-08T05:30" max="2022-06-14T00:00">
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon01" required>
+                        <label id="labeltime" class="custom-file-label" for="inputGroupFile04">Choose file</label>
                     </div>
                     <div class="input-group-append">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Duration</span>
+                        <span class="input-group-text" id="inputGroupFileAddon04">Duration</span>
                         <select id="exampleFormControlSelect2">
                             <option>10 s</option>
                             <option>20 s</option>
                             <option>30 s</option>
                             <option>40 s</option>
                             <option>50 s</option>
+                            <option>60 s</option>
                           </select>
                     </div>
                 </div>
 
-                <div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="submit" class="btn btn-primary">Cancel</button>
+                <div id="buttons" class="d-flex justify-content-center">
+                    <button id="btn_save" type="submit" class="btn btn-primary">Save</button>
+                    <button id="btn_cancel" type="button" class="btn btn-primary offset-1">Cancel</button>
+                    <button id="btn_new" type="button" class="btn btn-primary offset-1" style="display: none;">New</button>
                 </div>
-                  
+
             </form>
         </div>
+        </div>
+        <div class="col-md-3">
+            <div id="list"><h5>List of Campaigns: </h5></div>
+        </div>
+    </div>
         
-        
-        <div class="row">
+
+          <div id="maps" class="row">
             <div class="col-md-6 nopadding">
                 <h3 id="viewer">Viewer</h3>
                 <div>
@@ -386,11 +402,12 @@
                 <div id="view3d-container"></div>
             </div> 
           </div>
+
         </div>
       </div>
 
-
-<script src='app.js'></script>
+      <script src='login.js'></script>
+      <script src='company.js'></script>
 </div>   
 </body>
 </html>
