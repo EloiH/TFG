@@ -50,7 +50,8 @@ $(document).ready(function() {
     if(listOfCampaigns.includes(campaignName)==false){
         listOfCampaigns.push(campaignName);
         console.log(listOfCampaigns);
-        document.getElementById("list").innerHTML += '<div><button type="button" class="btn btn-primary" style="margin-top: 5px;">'+campaignName+'</button></div> ';
+        document.getElementById("list").innerHTML += 
+        '<div><button type="button" class="btn btn-primary" style="margin-top: 5px;">'+campaignName+'</button></div> ';
         toastr.info('Changes Saved');
         document.getElementById("btn_new").style.display = "block";
     }
