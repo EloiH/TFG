@@ -41,7 +41,7 @@ $(document).ready(function() {
 
  $("#form").submit(function(event){
     event.preventDefault();
-    document.getElementById("maps").style.display = "block";
+    document.getElementById("maps").style.display = "inline-flex";
     
     
     campaignName = document.getElementById("campaignName").value;
